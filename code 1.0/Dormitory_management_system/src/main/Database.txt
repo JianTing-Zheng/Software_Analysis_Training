@@ -1,0 +1,23 @@
+create table student(
+    id varchar(30),
+    password varchar(30),
+    primary key(id)
+);
+
+insert into student(id, password) values("student_1", "123456");
+
+create table houseparent(
+    id varchar(30),
+    password varchar(30),
+    primary key(id)
+);
+
+insert into houseparent(id, password) values("houseparent_1", "123456");
+
+create table administrator(
+    id varchar(30),
+    password varchar(30),
+    primary key(id)
+);
+
+insert into administrator(id, password) values("administrator_1", "123456");

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scut.dao.LoginDao">
+
+    <select id="correctStudent" resultType="int">
+        select count(distinct id) from student where id=#{id} and password=#{password}
+    </select>
+
+    <select id="correctHouseparent" resultType="int">
+        select count(distinct id) from houseparent where id=#{id} and password=#{password}
+    </select>
+
+    <select id="correctAdministrator" resultType="int">
+        select count(distinct id) from administrator where id=#{id} and password=#{password}
+    </select>
+
+</mapper>
