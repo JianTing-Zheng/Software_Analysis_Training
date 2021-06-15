@@ -37,10 +37,10 @@ public class LoginController {
         if(identity.equals("administrator")) {
             int res = service.isMatching(id, password, 2);
             if(res == 1) {
-                mv.setViewName("administratorIndex");
+                mv.setViewName("adminIndex");
             }
             else {
-                mv.setViewName("administratorLoginFail");
+                mv.setViewName("adminLoginFail");
             }
         }
         return mv;

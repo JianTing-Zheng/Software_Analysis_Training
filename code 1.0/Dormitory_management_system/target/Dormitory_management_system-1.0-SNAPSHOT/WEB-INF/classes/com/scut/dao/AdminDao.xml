@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scut.dao.AdminDao">
+
+    <select id="selectStudent" resultType="Student">
+        select id, password from student order by id asc
+    </select>
+
+    <insert id="insertStudentSeparately">
+        insert into student(id, password) values(#{id}, #{password})
+    </insert>
+
+    <delete id="deleteStudentSeparately">
+        delete from student where id=#{id}
+    </delete>
+
+</mapper>
