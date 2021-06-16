@@ -4,9 +4,14 @@ import com.scut.domain.Student;
 import com.scut.service.AdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
@@ -33,6 +38,17 @@ public class AdminController {
     @ResponseBody
     public int delStudentSeparately(Student student) {
         return adminService.delStudentSeparately(student);
+    }
+
+    @RequestMapping(value = "/uploadStudent.do")
+    public void uploadStudent(@RequestParam(value = "file", required = false) MultipartFile file,
+                              HttpServletResponse response) throws IOException {
+        response.setContentType("application/text;charset=utf-8");
+        String result = adminService.addStudentBatch(file);
+        PrintWriter pw = response.getWriter();
+        pw.println(result);
+        pw.flush();
+        pw.close();
     }
 
 }

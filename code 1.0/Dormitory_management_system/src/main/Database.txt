@@ -21,3 +21,10 @@ create table administrator(
 );
 
 insert into administrator(id, password) values("administrator_1", "123456");
+
+create table user(
+    name varchar(30),
+    sex varchar(30),
+    age varchar(30),
+    primary key(name)
+);

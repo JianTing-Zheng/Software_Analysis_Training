@@ -3,7 +3,9 @@ package com.scut.service.Impl;
 import com.scut.dao.AdminDao;
 import com.scut.domain.Student;
 import com.scut.service.AdminService;
+import com.scut.utils.ReadExcel_Student;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -26,5 +28,28 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int delStudentSeparately(Student student) {
         return adminDao.deleteStudentSeparately(student);
+    }
+
+    @Override
+    public String addStudentBatch(MultipartFile file) {
+        String result = "";
+
+        // 创建处理Excel的类
+        ReadExcel_Student readExcel_student = new ReadExcel_Student();
+
+        // 解析Excel
+        List<Student> studentList = readExcel_student.getExcelInfo(file);
+        if(studentList != null && !studentList.isEmpty()) {
+            for(int i = 0; i < studentList.size(); i++) {
+                Student student = studentList.get(i);
+                adminDao.insertStudentSeparately(student);
+            }
+            result = "上传成功";
+        }
+        else {
+            result = "上传失败";
+        }
+
+        return result;
     }
 }

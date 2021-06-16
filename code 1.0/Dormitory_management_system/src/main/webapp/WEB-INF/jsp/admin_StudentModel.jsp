@@ -139,6 +139,56 @@
       });
     });
   </script>
+
+  <!-- 导入一批学生 -->
+  <script type="text/javascript">
+    let User = function() {
+      this.init = function() {
+        //模拟上传excel
+        $("#uploadEventBtn").unbind("click").bind("click", function() {
+          $("#uploadEventFile").click();
+        });
+        $("#uploadEventFile").bind("change", function() {
+          $("#uploadEventPath").attr("value", $("#uploadEventFile").val());
+        });
+      };
+      //点击上传按钮
+      this.uploadBtn = function() {
+        let uploadEventFile = $("#uploadEventFile").val();
+        if(uploadEventFile == '') {
+          alert("请选择Excel文件, 再上传");
+        }else if(uploadEventFile.lastIndexOf(".xls") < 0) {
+          alert("只能上传Excel文件");
+        }else {
+          let url =  'admin/uploadStudent.do';
+          let formData = new FormData($('form')[0]);
+          user.sendAjaxRequest(url, 'POST', formData);
+        }
+      };
+      this.sendAjaxRequest = function(url, type, data) {
+        $.ajax({
+          url: url,
+          type: type,
+          data: data,
+          success: function(result) {
+            loadStudentData();
+            alert(result);
+          },
+          error: function() {
+            alert("excel上传失败");
+          },
+          cache: false,
+          contentType: false,
+          processData: false
+        });
+      };
+    }
+    let user;
+    $(function() {
+      user = new User();
+      user.init();
+    });
+  </script>
 </head>
 
 <body>
@@ -176,6 +226,12 @@
 
     <!-- 修改某一个学生信息 -->
     <!-- 导入一批学生 -->
+    <form enctype="multipart/form-data" id="batchUpload"  action="user/upload" method="post" class="form-horizontal">
+      <button class="btn btn-success btn-xs" id="uploadEventBtn" style="height:26px;"  type="button" >选择文件</button>
+      <input type="file" name="file"  style="width:0px;height:0px;" id="uploadEventFile">
+      <input id="uploadEventPath"  disabled="disabled"  type="text" >
+    </form>
+    <button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn()" >上传</button>
 
   </div>
 </body>
