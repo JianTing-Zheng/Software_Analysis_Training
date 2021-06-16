@@ -16,4 +16,9 @@ public class PageController {
         return "admin_HouseparentModel";
     }
 
+    @RequestMapping(value = "/page_admin_lkx.do")
+    public String admin_lkx() {
+        return "admin_StudentModel_2";
+    }
+
 }

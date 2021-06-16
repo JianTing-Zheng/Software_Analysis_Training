@@ -17,7 +17,8 @@
 
   <servlet-mapping>
     <servlet-name>var_dispatcherServlet</servlet-name>
-    <url-pattern>*.do</url-pattern>
+<!--    <url-pattern>*.do</url-pattern>-->
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
   <!-- 注冊Spring监听器 -->

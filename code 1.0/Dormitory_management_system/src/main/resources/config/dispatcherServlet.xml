@@ -24,4 +24,8 @@
     <!-- 功能: 1. 响应ajax请求, 返回json 2. 解决静态资源访问问题 -->
     <mvc:annotation-driven/>
 
+    <!-- 解决静态资源访问冲突问题 -->
+<!--    <mvc:default-servlet-handler />-->
+    <mvc:resources mapping="/js/**" location="/js/" />
+
 </beans>

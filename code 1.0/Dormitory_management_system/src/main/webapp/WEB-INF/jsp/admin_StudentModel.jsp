@@ -6,11 +6,17 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+  String basePath = request.getScheme() + "://" +
+          request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
+%>
 <html>
 <head>
   <title>Title</title>
+  <base href="<%=basePath%>" />
+
   <!-- 查看学生信息 -->
-  <script src="../../js/jquery-3.6.0.js"></script>
+  <script src="js/jquery-3.6.0.js"></script>
   <script type="text/javascript">
     $(function () {
       // 当前页面dom对象加载后, 执行loadStudentData()
@@ -42,8 +48,8 @@
   </script>
 
   <!-- 添加一个学生 -->
-  <script src="../../js/jquery-ui.js"></script>
-  <link rel="stylesheet" href="../../js/jquery-ui.css">
+  <script src="js/jquery-ui.js"></script>
+  <link rel="stylesheet" href="js/jquery-ui.css">
   <script type="text/javascript">
     $(function (){
       $("#dialog").dialog({
