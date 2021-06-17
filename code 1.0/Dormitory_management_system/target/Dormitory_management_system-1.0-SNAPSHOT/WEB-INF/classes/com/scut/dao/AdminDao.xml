@@ -5,15 +5,19 @@
 <mapper namespace="com.scut.dao.AdminDao">
 
     <select id="selectStudent" resultType="Student">
-        select id, password from student order by id asc
+        select sID, sName, sSex, sIDcardNo, sEnrollYear, sPassword, sPhoneNumber, sEmail,
+               dormID, roomID, livingState, schoolState from student order by sID asc
     </select>
 
     <insert id="insertStudentSeparately">
-        insert into student(id, password) values(#{id}, #{password})
+        insert into student(sID, sName, sSex, sIDcardNo, sEnrollYear, sPassword, sPhoneNumber, sEmail,
+                            dormID, roomID, livingState, schoolState) values(#{sID}, #{sName}, #{sSex}, #{sIDcardNo},
+                            #{sEnrollYear}, #{sPassword}, #{sPhoneNumber}, #{sEmail}, #{dormID}, #{roomID},
+                            #{livingState}, #{schoolState})
     </insert>
 
     <delete id="deleteStudentSeparately">
-        delete from student where id=#{id}
+        delete from student where sID=#{sID}
     </delete>
 
 </mapper>

@@ -5,15 +5,15 @@
 <mapper namespace="com.scut.dao.LoginDao">
 
     <select id="correctStudent" resultType="int">
-        select count(distinct id) from student where id=#{id} and password=#{password}
+        select count(distinct sID) from student where sID=#{sID} and sPassword=#{sPassword}
     </select>
 
     <select id="correctHouseparent" resultType="int">
-        select count(distinct id) from houseparent where id=#{id} and password=#{password}
+        select count(distinct hID) from houseparent where hID=#{hID} and hPassword=#{hPassword}
     </select>
 
     <select id="correctAdministrator" resultType="int">
-        select count(distinct id) from administrator where id=#{id} and password=#{password}
+        select count(distinct aID) from superAdmin where aID=#{aID} and aPassword=#{aPassword}
     </select>
 
 </mapper>

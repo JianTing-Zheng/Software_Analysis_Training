@@ -14,10 +14,25 @@ create table houseparent(
 
 insert into houseparent(id, password) values("houseparent_1", "123456");
 
-create table administrator(
+create table superAdmin(
     id varchar(30),
     password varchar(30),
     primary key(id)
 );
 
-insert into administrator(id, password) values("administrator_1", "123456");
+insert into superAdmin(aID, aName, aSex, aIDcardNo, aPassword, aPhoneNumber, aEmail)
+values("admin", "葫芦娃", 1, "12345", "123456", "2333", "huluwa@qq.com");
+
+insert into room values("414", "C10", 4, 4, 0);
+insert into room values("123", "C12", 1, 4, 0);
+
+insert into dormitory values("C10", 6);
+insert into dormitory values("C12", 6);
+
+insert into student(sID, sName, sSex, sIDcardNo, sEnrollYear, sPassword, sPhoneNumber, sEmail, dormID, roomID, livingState, schoolState)
+values("20190001", "张三", 1, "123456", 2019, "12345", "111", "222", "C12", "123", 0, "在读");
+
+insert into student(sID, sName, sSex, sIDcardNo, sEnrollYear, sPassword, sPhoneNumber, sEmail, dormID, roomID, livingState, schoolState)
+values("student", "student", 1, "56789", 2019, "123456", "1112", "2223", "C12", "123", 0, "在读");
+
+insert into houseparent values("houseparent", "hp", 1, "123", "123456", "123456", "111", "C10");

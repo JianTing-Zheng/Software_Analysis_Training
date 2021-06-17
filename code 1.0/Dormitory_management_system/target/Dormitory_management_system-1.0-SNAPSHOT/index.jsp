@@ -17,7 +17,7 @@
       密码: <input type="text" name="password"> <br>
       学生 <input type="radio" name="identity" value="student">
       宿管 <input type="radio" name="identity" value="houseparent">
-      系统管理员 <input type="radio" name="identity" value="administrator"> <br>
+      系统管理员 <input type="radio" name="identity" value="superAdmin"> <br>
       <input type="submit" value="登录">
     </form>
   </div>

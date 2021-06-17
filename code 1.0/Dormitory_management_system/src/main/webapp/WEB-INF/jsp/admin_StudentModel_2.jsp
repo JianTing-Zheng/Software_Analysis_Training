@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -88,25 +89,31 @@
       }
   </style>
 </head>
+
 <body>
-<div id = "header">
-  <div id = "titleOfSystem">
-    <h1 text-align: center;>宿舍管理系统</h1>
+  <!-- 头部区域 -->
+  <div id = "header">
+    <div id = "titleOfSystem">
+      <h1 text-align: center;>宿舍管理系统</h1>
+    </div>
+    <div id = "logOut">
+      <a href="#" title="退出登录" target="_self">退出登录</a>
+    </div>
   </div>
-  <div id = "logOut">
-    <a href="#" title="退出登录" target="_self">退出登录</a>
+
+  <!-- 左侧菜单栏 -->
+  <div id="menu">
+    <ul>
+      <li><a href="#" target="_self">个人信息</a></li>
+      <li><a href="#" target="_self">学生管理</a></li>
+      <li><a href="#" target="_self">宿管管理</a></li>
+      <li><a href="#" target="_self">宿舍楼管理</a></li>
+    </ul>
   </div>
-</div>
-<div id="menu">
-  <ul>
-    <li><a href="#" target="_self">个人信息</a></li>
-    <li><a href="#" target="_self">学生管理</a></li>
-    <li><a href="#" target="_self">宿管管理</a></li>
-    <li><a href="#" target="_self">宿舍楼管理</a></li>
-  </ul>
-</div>
+
 <div id="image"></div>
 <div id="function">
+  <!-- 系统管理员个人信息模块 -->
   <div style="border:2px solid blue;" id="nav">个人信息</div>
   <div id = "info" class="functDivs" style="display: block;">
     <form>
@@ -120,9 +127,12 @@
       <input type="submit" id="aSave" value="保存" disabled="disabled">
     </form>
   </div>
+
+  <!-- 学生模块 -->
   <div id = "stud" class="functDivs">
     <form id="sform" name="sform" method="post" action="">
       <table width="698" border="0" cellpadding="0" cellspacing="0" id="studTable">
+        <thead>
         <tr>
           <td width="32" align="center" bgcolor="#EFEFEF" Name="Num"><input type="checkbox" name="checkbox" value="checkbox" /></td>
           <td width="186" bgcolor="#EFEFEF" Name="sID" EditType="TextBox">学号</td>
@@ -132,6 +142,9 @@
           <td width="103" bgcolor="#EFEFEF" Name="roomID" EditType="DropDownList" DataItems="{text:'101',value:'101'},{text:'102',value:'102'}">房间号</td>
           <td width="120" bgcolor="#EFEFEF" Name="sDetail" >详细信息</td>
         </tr>
+        </thead>
+
+        <tbody>
         <tr>
           <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>
           <td bgcolor="#FFFFFF">10915134</td>
@@ -150,6 +163,7 @@
           <td bgcolor="#FFFFFF" Value="101">101</td>
           <td bgcolor="#FFFFFF"><a href="#" onclick="StudentTarget()">详细信息</a></td>
         </tr>
+        </tbody>
       </table>
 
       <br />
@@ -160,6 +174,8 @@
       <input type="file" name="sSubmit4" value="选择文件" accept="*.xls"/>
     </form>
   </div>
+
+  <!-- 宿舍管理员模块 -->
   <div id = "hparent" class="functDivs">
     <form id="hform" name="hform" method="post" action="">
       <table width="698" border="0" cellpadding="0" cellspacing="0" id="hparentTable">
@@ -197,6 +213,8 @@
       <input type="file" name="hSubmit4" value="选择文件" accept="*.xls"/>
     </form>
   </div>
+
+  <!-- 宿舍楼模块 -->
   <div id = "dorm" class="functDivs">
     <form id="dform" name="dform" method="post" action="">
       <table width="698" border="0" cellpadding="0" cellspacing="0" id="dormTable">
@@ -230,7 +248,7 @@
   </div>
 
 
-
+  <!-- 学生详细信息模块 -->
   <div id="studentDetail" class="detailDivs">
     <form>
       <span class="infoText">姓名：</span><input type="text" name="sName" placeholder="学生的姓名" readonly><br>
@@ -248,6 +266,8 @@
       <input type="submit" id="sSave" value="保存" disabled="disabled">
     </form>
   </div>
+
+  <!-- 宿舍管理员详细信息模块 -->
   <div id="hparentDetail" class="detailDivs">
     <form>
       <span class="infoText">姓名：</span><input type="text" name="hName" placeholder="宿管的姓名" readonly><br>
@@ -261,6 +281,8 @@
       <input type="submit" id="hSave" value="保存" disabled="disabled">
     </form>
   </div>
+
+  <!-- 宿舍楼详细信息模块 -->
   <div id="dormDetail" class="detailDivs">
     <form id="rform" name="rform" method="post" action="">
       <table width="698" border="0" cellpadding="0" cellspacing="0" id="roomTable">
@@ -434,7 +456,7 @@
     dormDetail.style.display = "block";
   }
 </script>
-<script language="javascript" src="../../js/Admin/adminModel.js">
+<script language="javascript" src="${pageContext.request.contextPath}/js/Admin/adminModel.js">
 </script>
 <script language="javascript">
   var studTable = document.getElementById("studTable");

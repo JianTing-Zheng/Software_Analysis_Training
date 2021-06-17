@@ -1,6 +1,7 @@
 package com.scut.utils;
 
 import com.scut.domain.Student;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -100,6 +101,7 @@ public class ReadExcel_Student {
             Student student = new Student();
             // 循环Excel的列
             for (int c = 0; c < this.totalCells; c++) {
+                System.out.println(this.totalCells);
                 Cell cell = row.getCell(c);
                 if (null != cell) {
                     if (c == 0) {
@@ -113,8 +115,8 @@ public class ReadExcel_Student {
                          * }
                          */
                         cell.setCellType(1);
-                        String id = cell.getStringCellValue() + "";
-                        student.setId(id);
+                        String sID = cell.getStringCellValue() + "";
+                        student.setsID(sID);
                     } else if (c == 1) {
                         // 如果是纯数字,比如你写的是25,cell.getNumericCellValue()获得是25.0,通过截取字符串去掉.0获得25
                         /**
@@ -126,8 +128,82 @@ public class ReadExcel_Student {
                          * }
                          */
                         cell.setCellType(1);
-                        String password = cell.getStringCellValue() + "";
-                        student.setPassword(password);
+                        String sPassword = cell.getStringCellValue() + "";
+                        student.setsPassword(sPassword);
+                    }
+                    else if (c == 2) {
+//                        cell.setCellType(1);
+//                        String sSex = cell.getStringCellValue() + "";
+//                        student.setsSex(sSex);
+
+                          if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+                              String sSex = String.valueOf(cell.getNumericCellValue());
+                              student.setsSex(sSex.substring(0, sSex.length() - 2 > 0 ? sSex.length() - 2 : 1));
+                          } else {
+                              student.setsSex(cell.getStringCellValue());
+                          }
+
+                    }
+                    else if (c == 3) {
+                        cell.setCellType(1);
+                        String sIDcardNo = cell.getStringCellValue() + "";
+                        student.setsIDcardNo(sIDcardNo);
+                    }
+                    else if (c == 4) {
+//                        cell.setCellType(1);
+//                        String sEnrollYear = cell.getStringCellValue() + "";
+//                        student.setsEnrollYear(sEnrollYear);
+
+                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+                            String sEnrollYear = String.valueOf(cell.getNumericCellValue());
+                            student.setsEnrollYear(sEnrollYear.substring(0, sEnrollYear.length() - 2 > 0 ? sEnrollYear.length() - 2 : 1));
+                        } else {
+                            student.setsEnrollYear(cell.getStringCellValue());
+                        }
+
+                    }
+                    else if (c == 5) {
+                        cell.setCellType(1);
+                        String sPassword = cell.getStringCellValue() + "";
+                        student.setsPassword(sPassword);
+                    }
+                    else if (c == 6) {
+                        cell.setCellType(1);
+                        String sPhoneNumber = cell.getStringCellValue() + "";
+                        student.setsPhoneNumber(sPhoneNumber);
+                    }
+                    else if (c == 7) {
+                        cell.setCellType(1);
+                        String sEmail = cell.getStringCellValue() + "";
+                        student.setsEmail(sEmail);
+                    }
+                    else if (c == 8) {
+                        cell.setCellType(1);
+                        String dormID = cell.getStringCellValue() + "";
+                        student.setDormID(dormID);
+                    }
+                    else if (c == 9) {
+                        cell.setCellType(1);
+                        String roomID = cell.getStringCellValue() + "";
+                        student.setRoomID(roomID);
+                    }
+                    else if (c == 10) {
+//                        cell.setCellType(1);
+//                        String livingState = cell.getStringCellValue() + "";
+//                        student.setLivingState(livingState);
+
+                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+                            String livingState = String.valueOf(cell.getNumericCellValue());
+                            student.setLivingState(livingState.substring(0, livingState.length() - 2 > 0 ? livingState.length() - 2 : 1));
+                        } else {
+                            student.setLivingState(cell.getStringCellValue());
+                        }
+
+                    }
+                    else if (c == 11) {
+                        cell.setCellType(1);
+                        String schoolState = cell.getStringCellValue() + "";
+                        student.setSchoolState(schoolState);
                     }
                 }
             }

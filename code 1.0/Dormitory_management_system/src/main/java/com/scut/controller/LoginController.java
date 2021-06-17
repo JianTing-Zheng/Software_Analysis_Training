@@ -34,10 +34,10 @@ public class LoginController {
                 mv.setViewName("houseparentLoginFail");
             }
         }
-        if(identity.equals("administrator")) {
+        else if(identity.equals("superAdmin")) {
             int res = service.isMatching(id, password, 2);
             if(res == 1) {
-                mv.setViewName("adminIndex");
+                mv.setViewName("admin_StudentModel_Final");
             }
             else {
                 mv.setViewName("adminLoginFail");

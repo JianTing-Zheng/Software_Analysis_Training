@@ -18,7 +18,12 @@ public class PageController {
 
     @RequestMapping(value = "/page_admin_lkx.do")
     public String admin_lkx() {
-        return "admin_StudentModel_2";
+        return "admin_StudentModel_Final";
+    }
+
+    @RequestMapping(value = "page_houseparent_dorm.do")
+    public String page_houseparent_dorm() {
+        return "houseparent_dorm";
     }
 
 }
