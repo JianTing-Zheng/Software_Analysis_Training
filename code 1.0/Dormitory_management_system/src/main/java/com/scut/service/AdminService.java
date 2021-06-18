@@ -11,5 +11,7 @@ public interface AdminService {
     int addStudentSeparately(Student student);
     int delStudentSeparately(Student student);
     String addStudentBatch(MultipartFile file);
+    Student searchStudentDetailInfo(Student student);
+    int modifyStudentDetailInfo(Student student);
 
 }

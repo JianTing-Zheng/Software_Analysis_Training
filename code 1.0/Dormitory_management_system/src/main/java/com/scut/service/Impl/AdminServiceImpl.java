@@ -52,4 +52,14 @@ public class AdminServiceImpl implements AdminService {
 
         return result;
     }
+
+    @Override
+    public Student searchStudentDetailInfo(Student student) {
+        return adminDao.selectOneStudent(student);
+    }
+
+    @Override
+    public int modifyStudentDetailInfo(Student student) {
+        return adminDao.updateStudentDetail(student);
+    }
 }

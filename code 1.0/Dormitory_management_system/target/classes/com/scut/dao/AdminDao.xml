@@ -20,4 +20,14 @@
         delete from student where sID=#{sID}
     </delete>
 
+    <select id="selectOneStudent" resultType="Student">
+        select * from student where sID=#{sID}
+    </select>
+
+    <update id="updateStudentDetail">
+        update student set sName=#{sName}, sSex=#{sSex}, sIDcardNo=#{sIDcardNo}, sEnrollYear=#{sEnrollYear},
+                           sPhoneNumber=#{sPhoneNumber}, sEmail=#{sEmail}, dormID=#{dormID}, roomID=#{roomID},
+                           livingState=#{livingState}, schoolState=#{schoolState} where sID=#{sID}
+    </update>
+
 </mapper>

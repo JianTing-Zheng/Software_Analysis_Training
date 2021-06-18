@@ -101,7 +101,6 @@ public class ReadExcel_Student {
             Student student = new Student();
             // 循环Excel的列
             for (int c = 0; c < this.totalCells; c++) {
-                System.out.println(this.totalCells);
                 Cell cell = row.getCell(c);
                 if (null != cell) {
                     if (c == 0) {
@@ -128,8 +127,8 @@ public class ReadExcel_Student {
                          * }
                          */
                         cell.setCellType(1);
-                        String sPassword = cell.getStringCellValue() + "";
-                        student.setsPassword(sPassword);
+                        String sName = cell.getStringCellValue() + "";
+                        student.setsName(sName);
                     }
                     else if (c == 2) {
 //                        cell.setCellType(1);

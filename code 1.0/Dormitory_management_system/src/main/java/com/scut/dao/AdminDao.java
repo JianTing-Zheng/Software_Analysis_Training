@@ -9,5 +9,7 @@ public interface AdminDao {
     List<Student> selectStudent();
     int insertStudentSeparately(Student student);
     int deleteStudentSeparately(Student student);
+    Student selectOneStudent(Student student);
+    int updateStudentDetail(Student student);
 
 }
