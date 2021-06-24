@@ -5,7 +5,7 @@ public class Houseparent {
     private String hID;
     private String hName;
     private String hSex;
-    private String hIDcardNO;
+    private String hIDcardNo;
     private String hPassword;
     private String hPhoneNumber;
     private String hEmail;
@@ -35,12 +35,12 @@ public class Houseparent {
         this.hSex = hSex;
     }
 
-    public String gethIDcardNO() {
-        return hIDcardNO;
+    public String gethIDcardNo() {
+        return hIDcardNo;
     }
 
-    public void sethIDcardNO(String hIDcardNO) {
-        this.hIDcardNO = hIDcardNO;
+    public void sethIDcardNo(String hIDcardNo) {
+        this.hIDcardNo = hIDcardNo;
     }
 
     public String gethPassword() {

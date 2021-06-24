@@ -1,6 +1,8 @@
 package com.scut.controller;
 
+import com.scut.domain.Houseparent;
 import com.scut.domain.Student;
+import com.scut.domain.SuperAdmin;
 import com.scut.service.AdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -71,6 +74,68 @@ public class AdminController {
         pw.println(res);
         pw.flush();
         pw.close();
+    }
+
+    @RequestMapping(value = "/modifyAdminDetail.do")
+    public void modifyAdminDetail(SuperAdmin superAdmin, HttpServletResponse response) throws IOException {
+        String res = "修改失败";
+        int isUpdate = adminService.modifyAdminDetailInfo(superAdmin);
+        if(isUpdate == 1) {
+            res = "修改成功";
+        }
+
+        response.setContentType("application/text;charset=utf-8");
+        PrintWriter pw = response.getWriter();
+        pw.println(res);
+        pw.flush();
+        pw.close();
+    }
+
+    @RequestMapping(value = "/searchAdminDetail.do")
+    @ResponseBody
+    public SuperAdmin searchAdminDetail() {
+        return adminService.searchAdminDetailInfo();
+    }
+
+    @RequestMapping(value = "/displayHouseparent.do")
+    @ResponseBody
+    public List<Houseparent> displayHouseparent() {
+        List<Houseparent> houseparents = adminService.searchHouseparent();
+        return houseparents;
+    }
+
+    @RequestMapping(value = "/addHouseparentSeparately.do")
+    @ResponseBody
+    public List<String> addHouseparentSeparately(Houseparent houseparent) {
+        List<String> res = new ArrayList<>();
+        res.add("添加失败");
+        int isInsert = adminService.addHouseparentSeparately(houseparent);
+        if(isInsert == 1) {
+            res.remove(0);
+            res.add("添加成功");
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/delHouseparentSeparately.do")
+    @ResponseBody
+    public List<String> delHouseparentSeparately(Houseparent houseparent) {
+        List<String> res = new ArrayList<>();
+        res.add("删除失败");
+        int isDelete = adminService.delHouseparentSeparately(houseparent);
+        if(isDelete == 1) {
+            res.remove(0);
+            res.add("删除成功");
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/uploadHouseparent.do")
+    @ResponseBody
+    public List<String> uploadHouseparent(@RequestParam(value = "file", required = false) MultipartFile file) {
+        List<String> res = new ArrayList<>();
+        res.add(adminService.addHouseparentBatch(file));
+        return res;
     }
 
 }

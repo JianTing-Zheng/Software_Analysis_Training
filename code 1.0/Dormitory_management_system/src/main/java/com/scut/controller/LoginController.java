@@ -37,7 +37,7 @@ public class LoginController {
         else if(identity.equals("superAdmin")) {
             int res = service.isMatching(id, password, 2);
             if(res == 1) {
-                mv.setViewName("admin_StudentModel_Final");
+                mv.setViewName("adminIndex");
             }
             else {
                 mv.setViewName("adminLoginFail");

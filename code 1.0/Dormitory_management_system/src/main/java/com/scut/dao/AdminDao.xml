@@ -30,4 +30,26 @@
                            livingState=#{livingState}, schoolState=#{schoolState} where sID=#{sID}
     </update>
 
+    <update id="updateAdminDetail">
+        update superAdmin set aName=#{aName}, aSex=#{aSex}, aIDcardNo=#{aIDcardNo},
+                              aPhoneNumber=#{aPhoneNumber}, aEmail=#{aEmail} where aID=#{aID}
+    </update>
+
+    <select id="selectAdmin" resultType="SuperAdmin">
+        select * from superAdmin
+    </select>
+
+    <select id="selectHouseparent" resultType="Houseparent">
+        select hID, hName, hSex, hIDcardNo, hPassword, hPhoneNumber, hEmail, dormID from houseparent order by hID asc
+    </select>
+
+    <insert id="insertHouseparentSeparately">
+        insert into houseparent(hID, hName, hSex, hIDcardNo, hPassword, hPhoneNumber, hEmail, dormID) values(#{hID},
+                                #{hName}, #{hSex}, #{hIDcardNo}, #{hPassword}, #{hPhoneNumber}, #{hEmail}, #{dormID})
+    </insert>
+
+    <delete id="deleteHouseparentSeparately">
+        delete from houseparent where hID=#{hID}
+    </delete>
+
 </mapper>

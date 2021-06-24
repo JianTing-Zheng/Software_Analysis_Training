@@ -8,17 +8,17 @@ public class PageController {
 
     @RequestMapping(value = "/page_admin_StudentModel.do")
     public String admin_StudentModel() {
-        return "admin_StudentModel";
+        return "/WEB-INF/backup/admin_StudentModel.jsp";
     }
 
     @RequestMapping(value = "/page_admin_HouseparentModel.do")
     public String admin_HouseparentModel() {
-        return "admin_HouseparentModel";
+        return "/WEB-INF/backup/admin_HouseparentModel.jsp";
     }
 
     @RequestMapping(value = "/page_admin_lkx.do")
     public String admin_lkx() {
-        return "admin_StudentModel_Final";
+        return "adminIndex";
     }
 
     @RequestMapping(value = "page_houseparent_dorm.do")

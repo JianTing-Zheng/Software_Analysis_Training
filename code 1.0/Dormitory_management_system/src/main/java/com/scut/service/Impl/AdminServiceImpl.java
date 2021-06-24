@@ -1,8 +1,11 @@
 package com.scut.service.Impl;
 
 import com.scut.dao.AdminDao;
+import com.scut.domain.Houseparent;
 import com.scut.domain.Student;
+import com.scut.domain.SuperAdmin;
 import com.scut.service.AdminService;
+import com.scut.utils.ReadExcel_Houseparent;
 import com.scut.utils.ReadExcel_Student;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,5 +64,53 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int modifyStudentDetailInfo(Student student) {
         return adminDao.updateStudentDetail(student);
+    }
+
+    @Override
+    public int modifyAdminDetailInfo(SuperAdmin superAdmin) {
+        return adminDao.updateAdminDetail(superAdmin);
+    }
+
+    @Override
+    public SuperAdmin searchAdminDetailInfo() {
+        return adminDao.selectAdmin();
+    }
+
+    @Override
+    public List<Houseparent> searchHouseparent() {
+        return adminDao.selectHouseparent();
+    }
+
+    @Override
+    public int addHouseparentSeparately(Houseparent houseparent) {
+        return adminDao.insertHouseparentSeparately(houseparent);
+    }
+
+    @Override
+    public int delHouseparentSeparately(Houseparent houseparent) {
+        return adminDao.deleteHouseparentSeparately(houseparent);
+    }
+
+    @Override
+    public String addHouseparentBatch(MultipartFile file) {
+        String res = "";
+
+        // 创建处理Excel的类
+        ReadExcel_Houseparent readExcel_houseparent = new ReadExcel_Houseparent();
+
+        // 解析Excel
+        List<Houseparent> houseparentList = readExcel_houseparent.getExcelInfo(file);
+        if(houseparentList != null && !houseparentList.isEmpty()) {
+            for(int i = 0; i < houseparentList.size(); i++) {
+                Houseparent houseparent = houseparentList.get(i);
+                adminDao.insertHouseparentSeparately(houseparent);
+            }
+            res = "上传成功";
+        }
+        else {
+            res = "上传失败";
+        }
+
+        return res;
     }
 }
