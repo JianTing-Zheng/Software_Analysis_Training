@@ -3,6 +3,7 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/Dormitory_management_system/src/main/webapp/WEB-INF/jsp/adminIndex.jsp" value="file://$PROJECT_DIR$/Dormitory_management_system/src/main/webapp/WEB-INF/jsp" />
         <entry key="file://$PROJECT_DIR$/Dormitory_management_system/src/main/webapp/WEB-INF/jsp/admin_StudentModel.jsp" value="file://$PROJECT_DIR$/Dormitory_management_system/src/main/webapp/WEB-INF/jsp" />
         <entry key="file://$PROJECT_DIR$/Dormitory_management_system/src/main/webapp/WEB-INF/jsp/admin_StudentModel_Final.jsp" value="file://$PROJECT_DIR$/Dormitory_management_system/src/main/webapp/WEB-INF/jsp" />
       </map>

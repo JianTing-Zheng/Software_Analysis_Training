@@ -1,8 +1,7 @@
 package com.scut.dao;
 
-import com.scut.domain.Houseparent;
-import com.scut.domain.Student;
-import com.scut.domain.SuperAdmin;
+import com.scut.domain.*;
+import com.scut.domain.DormitoryAndRoom;
 
 import java.util.List;
 
@@ -13,10 +12,27 @@ public interface AdminDao {
     int deleteStudentSeparately(Student student);
     Student selectOneStudent(Student student);
     int updateStudentDetail(Student student);
+
     int updateAdminDetail(SuperAdmin superAdmin);
     SuperAdmin selectAdmin();
+
     List<Houseparent> selectHouseparent();
     int insertHouseparentSeparately(Houseparent houseparent);
     int deleteHouseparentSeparately(Houseparent houseparent);
+    Houseparent selectOneHouseparent(Houseparent houseparent);
+    int updateHouseparentDetail(Houseparent houseparent);
+
+    List<Dormitory> selectDormitory();
+    int insertDormitorySeparately(Dormitory dormitory);
+    int deleteDormitorySeparately(Dormitory dormitory);
+
+    int isExistDormitory(Dormitory dormitory);
+    int isExistRoom(Room room);
+    int updateDormitoryDetail(Dormitory dormitory);
+    int updateRoomDetail(Room room);
+    int insertRoomSeparately(Room room);
+
+    List<DormitoryAndRoom> selectDormitoryDetail(Dormitory dormitory);
+    int deleteRoomSeparately(Room room);
 
 }

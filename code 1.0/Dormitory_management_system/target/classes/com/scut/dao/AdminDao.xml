@@ -52,4 +52,58 @@
         delete from houseparent where hID=#{hID}
     </delete>
 
+    <select id="selectOneHouseparent" resultType="Houseparent">
+        select * from houseparent where hID=#{hID}
+    </select>
+
+    <update id="updateHouseparentDetail">
+        update houseparent set hName=#{hName}, hSex=#{hSex}, hIDcardNo=#{hIDcardNo}, hPhoneNumber=#{hPhoneNumber},
+                               hEmail=#{hEmail}, dormID=#{dormID} where hID=#{hID}
+    </update>
+
+    <select id="selectDormitory" resultType="Dormitory">
+        select dormID, numOfFloor from dormitory order by dormID asc
+    </select>
+
+    <insert id="insertDormitorySeparately">
+        insert into dormitory(dormID, numOfFloor) values(#{dormID}, #{numOfFloor})
+    </insert>
+
+    <delete id="deleteDormitorySeparately">
+        delete from dormitory where dormID=#{dormID}
+    </delete>
+
+    <select id="isExistDormitory" resultType="int">
+        select count(*) from dormitory where dormID=#{dormID}
+    </select>
+
+    <select id="isExistRoom" resultType="int">
+        select count(*) from room where roomID=#{roomID} and dormID=#{dormID}
+    </select>
+
+    <update id="updateDormitoryDetail">
+        update dormitory set numOfFloor=#{numOfFloor} where dormID=#{dormID}
+    </update>
+
+    <update id="updateRoomDetail">
+        update room set numOfFloor=#{numOfFloor}, roomCapacity=#{roomCapacity}, roomState=#{roomState}
+                    where roomID=#{roomID} and dormID=#{dormID}
+    </update>
+
+    <insert id="insertRoomSeparately">
+        insert into room(roomID, dormID, numOfFloor, roomCapacity, roomState) values(#{roomID}, #{dormID}, #{numOfFloor},
+                    #{roomCapacity}, #{roomState})
+    </insert>
+
+    <select id="selectDormitoryDetail" resultType="DormitoryAndRoom">
+        select distinct dormitory.dormID, dormitory.numOfFloor as dormNumOfFloor, roomID,
+                        room.numOfFloor as roomNumOfFloor, roomCapacity, roomState
+        from dormitory join room using (dormID)
+        where dormitory.dormID=#{dormID} order by roomID asc
+    </select>
+
+    <delete id="deleteRoomSeparately">
+        delete from room where roomID=#{roomID} and dormID=#{dormID}
+    </delete>
+
 </mapper>

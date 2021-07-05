@@ -1,8 +1,6 @@
 package com.scut.controller;
 
-import com.scut.domain.Houseparent;
-import com.scut.domain.Student;
-import com.scut.domain.SuperAdmin;
+import com.scut.domain.*;
 import com.scut.service.AdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -135,6 +133,99 @@ public class AdminController {
     public List<String> uploadHouseparent(@RequestParam(value = "file", required = false) MultipartFile file) {
         List<String> res = new ArrayList<>();
         res.add(adminService.addHouseparentBatch(file));
+        return res;
+    }
+
+    @RequestMapping(value = "/searchHouseparentDetail.do")
+    @ResponseBody
+    public Houseparent searchHouseparentDetail(Houseparent houseparent) {
+        return adminService.searchHouseparentDetailInfo(houseparent);
+    }
+
+    @RequestMapping(value = "/modifyHouseparentDetail.do")
+    @ResponseBody
+    public List<String> modifyHouseparentDetail(Houseparent houseparent) {
+        List<String> res = new ArrayList<>();
+        res.add("修改失败");
+        int isUpdate = adminService.modifyHouseparentDetailInfo(houseparent);
+        if(isUpdate == 1) {
+            res.remove(0);
+            res.add("修改成功");
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/displayDormitory.do")
+    @ResponseBody
+    public List<Dormitory> displayDormitory() {
+        List<Dormitory> dormitories = adminService.searchDormitory();
+        return dormitories;
+    }
+
+    @RequestMapping(value = "/addDormitorySeparately.do")
+    @ResponseBody
+    public List<String> addDormitorySeparately(Dormitory dormitory) {
+        List<String> res = new ArrayList<>();
+        res.add("添加失败");
+        int isInsert = adminService.addDormitorySeparately(dormitory);
+        if(isInsert == 1) {
+            res.remove(0);
+            res.add("添加成功");
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/delDormitorySeparately.do")
+    @ResponseBody
+    public List<String> delDormitorySeparately(Dormitory dormitory) {
+        List<String> res = new ArrayList<>();
+        res.add("删除失败");
+        int isDelete = adminService.delDormitorySeparately(dormitory);
+        if(isDelete == 1) {
+            res.remove(0);
+            res.add("删除成功");
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/uploadDormitoryAndRoom.do")
+    @ResponseBody
+    public List<String> uploadDormitoryAndRoom(@RequestParam(value = "file", required = false) MultipartFile file) {
+        List<String> res = new ArrayList<>();
+        res.add(adminService.addDormitoryAndRoomBatch(file));
+        return res;
+    }
+
+    @RequestMapping(value = "/searchDormitoryDetail.do")
+    @ResponseBody
+    public List<DormitoryAndRoom> searchDormitoryDetail(Dormitory dormitory) {
+        List<DormitoryAndRoom> dormitoryAndRoomList = adminService.searchDormitoryDetailInfo(dormitory);
+        return dormitoryAndRoomList;
+    }
+
+    @RequestMapping(value = "/addRoomSeparately.do")
+    @ResponseBody
+    public List<String> addRoomSeparately(Room room) {
+        List<String> res = new ArrayList<>();
+        res.add("添加失败");
+        int isInsert = adminService.addRoomSeparately(room);
+        if(isInsert == 1) {
+            res.remove(0);
+            res.add("添加成功");
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/delRoomSeparately.do")
+    @ResponseBody
+    public List<String> delRoomSeparately(Room room) {
+        List<String> res = new ArrayList<>();
+        res.add("删除失败");
+        int isDelete = adminService.delRoomSeparately(room);
+        if(isDelete == 1) {
+            res.remove(0);
+            res.add("删除成功");
+        }
         return res;
     }
 

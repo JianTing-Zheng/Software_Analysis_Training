@@ -1,10 +1,10 @@
 package com.scut.service.Impl;
 
 import com.scut.dao.AdminDao;
-import com.scut.domain.Houseparent;
-import com.scut.domain.Student;
-import com.scut.domain.SuperAdmin;
+import com.scut.domain.*;
 import com.scut.service.AdminService;
+import com.scut.domain.DormitoryAndRoom;
+import com.scut.utils.ReadExcel_DormitoryAndRoom;
 import com.scut.utils.ReadExcel_Houseparent;
 import com.scut.utils.ReadExcel_Student;
 import org.springframework.stereotype.Service;
@@ -112,5 +112,91 @@ public class AdminServiceImpl implements AdminService {
         }
 
         return res;
+    }
+
+    @Override
+    public Houseparent searchHouseparentDetailInfo(Houseparent houseparent) {
+        return adminDao.selectOneHouseparent(houseparent);
+    }
+
+    @Override
+    public int modifyHouseparentDetailInfo(Houseparent houseparent) {
+        return adminDao.updateHouseparentDetail(houseparent);
+    }
+
+    @Override
+    public List<Dormitory> searchDormitory() {
+        return adminDao.selectDormitory();
+    }
+
+    @Override
+    public int addDormitorySeparately(Dormitory dormitory) {
+        return adminDao.insertDormitorySeparately(dormitory);
+    }
+
+    @Override
+    public int delDormitorySeparately(Dormitory dormitory) {
+        return adminDao.deleteDormitorySeparately(dormitory);
+    }
+
+    @Override
+    public String addDormitoryAndRoomBatch(MultipartFile file) {
+        String res = "";
+
+        // 创建处理Excel的类
+        ReadExcel_DormitoryAndRoom readExcel_dormitoryAndRoom = new ReadExcel_DormitoryAndRoom();
+
+        // 解析Excel
+        List<DormitoryAndRoom> dormitoryAndRoomList = readExcel_dormitoryAndRoom.getExcelInfo(file);
+        if(dormitoryAndRoomList != null && !dormitoryAndRoomList.isEmpty()) {
+            for(int i = 0; i < dormitoryAndRoomList.size(); i++) {
+                DormitoryAndRoom dormitoryAndRoom = dormitoryAndRoomList.get(i);
+                Dormitory dormitory = new Dormitory();
+                dormitory.setDormID(dormitoryAndRoom.getDormID());
+                dormitory.setNumOfFloor(dormitoryAndRoom.getDormNumOfFloor());
+                int isExistDormitory = adminDao.isExistDormitory(dormitory);
+                if(isExistDormitory == 1) {
+                    adminDao.updateDormitoryDetail(dormitory);
+                }
+                else {
+                    adminDao.insertDormitorySeparately(dormitory);
+                }
+
+                Room room = new Room();
+                room.setRoomID(dormitoryAndRoom.getRoomID());
+                room.setDormID(dormitoryAndRoom.getDormID());
+                room.setNumOfFloor(dormitoryAndRoom.getRoomNumOfFloor());
+                room.setRoomCapacity(dormitoryAndRoom.getRoomCapacity());
+                room.setRoomState(dormitoryAndRoom.getRoomState());
+                int isExistRoom = adminDao.isExistRoom(room);
+                if(isExistRoom == 1) {
+                    adminDao.updateRoomDetail(room);
+                }
+                else {
+                    adminDao.insertRoomSeparately(room);
+                }
+            }
+            res = "上传成功";
+        }
+        else {
+            res = "上传失败";
+        }
+
+        return res;
+    }
+
+    @Override
+    public List<DormitoryAndRoom> searchDormitoryDetailInfo(Dormitory dormitory) {
+        return adminDao.selectDormitoryDetail(dormitory);
+    }
+
+    @Override
+    public int addRoomSeparately(Room room) {
+        return adminDao.insertRoomSeparately(room);
+    }
+
+    @Override
+    public int delRoomSeparately(Room room) {
+        return adminDao.deleteRoomSeparately(room);
     }
 }

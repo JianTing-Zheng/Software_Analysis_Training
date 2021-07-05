@@ -231,8 +231,8 @@
             livingState: document.getElementById("detail_livingState").value,
             schoolState: document.getElementById("detail_schoolState").value
           },
-          success: function (resp) {
-            alert(resp);
+          success: function (res) {
+            alert(res);
           },
           error: function () {
             alert("修改失败");
@@ -311,7 +311,7 @@
                   .append('<td bgcolor="#FFFFFF">' + houseparent.hName + '</td>')
                   .append('<td bgcolor="#FFFFFF">' + houseparent.hSex + '</td>')
                   .append('<td bgcolor="#FFFFFF">' + houseparent.dormID + '</td>')
-                  .append('<td bgcolor="#FFFFFF"><a href="#" onclick="HparentTarget()">详细信息</a></td>')
+                  .append('<td bgcolor="#FFFFFF"><a href="#" onclick="HparentTarget(\''+ houseparent.hID +'\')">详细信息</a></td>')
                   .append("</tr>")
             })
           }
@@ -481,6 +481,333 @@
         houseparentSet = new HouseparentSet();
         houseparentSet.init();
       });
+    </script>
+
+    <!-- 系统管理员修改宿舍管理员信息 -->
+    <script type="text/javascript">
+      function ModifyHouseparentDetail() {
+        $.ajax({
+          url: "admin/modifyHouseparentDetail.do",
+          type: "post",
+          dataType: "json",
+          data: {
+            hName: document.getElementById("detail_hName").value,
+            hID: document.getElementById("detail_hID").value,
+            hSex: document.getElementById("detail_hSex").value,
+            hIDcardNo: document.getElementById("detail_hIDcardNo").value,
+            hPhoneNumber: document.getElementById("detail_hPhoneNumber").value,
+            hEmail: document.getElementById("detail_hEmail").value,
+            dormID: document.getElementById("detail_hDormID").value
+          },
+          success: function (res) {
+            alert(res[0]);
+          },
+          error: function () {
+            alert("修改失败");
+          }
+        })
+      }
+    </script>
+
+    <!-- 查看宿舍楼栋信息 -->
+    <script type="text/javascript">
+      $(function () {
+        // 当前页面dom对象加载后, 执行loadDormitoryData()
+        loadDormitoryData();
+
+        $("#dormitoryInfoLoader").click(function () {
+          loadDormitoryData();
+        })
+      })
+
+      function loadDormitoryData() {
+        $.ajax({
+          url: "admin/displayDormitory.do",
+          type: "get",
+          dataType: "json",
+          success: function (dormitories) {
+            // 清除旧的数据
+            $("#dormitoryInfo").html("");
+            // 添加新的数据
+            $.each(dormitories, function (i, dormitory) {
+              $("#dormitoryInfo").append("<tr>")
+                  .append('<td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>')
+                  .append('<td bgcolor="#FFFFFF">' + dormitory.dormID + "</td>")
+                  .append('<td bgcolor="#FFFFFF">' + dormitory.numOfFloor + "</td>")
+                  .append('<td bgcolor="#FFFFFF"><a href="#" onclick="DormTarget(\''+ dormitory.dormID +'\')">详细信息</a></td>')
+                  .append("</tr>")
+            })
+          }
+        })
+      }
+    </script>
+
+    <!-- 添加一个宿舍楼栋 -->
+    <script type="text/javascript">
+      $(function () {
+        $("#dormitory_dialog").dialog({
+          autoOpen: false,
+          show: "blind",
+          hide: "explode",
+          modal: true,
+          buttons: [
+            {
+              text: "确定",
+              click: function () {
+                $.ajax({
+                  url: "admin/addDormitorySeparately.do",
+                  data: {
+                    dormID: $("input[id=add_dDormID]").val(),
+                    numOfFloor: $("input[id=add_dNumOfFloor]").val()
+                  },
+                  type: "post",
+                  dataType: "json",
+                  success: function (res) {
+                    alert(res[0]);
+                  },
+                  error: function () {
+                    alert("添加失败");
+                  }
+                })
+
+                loadDormitoryData();
+                $(this).dialog("close");
+              }
+            },
+            {
+              text: "取消",
+              click: function () {
+                $(this).dialog("close");
+              }
+            }
+          ],
+          closeOnEscape: false,
+          title: "添加一个宿舍楼栋",
+          position: "center",
+          width: 400,
+          height: 330,
+          resizable: false
+        });
+
+        $("#dormitory_dialog_link").click(function () {
+          $("#dormitory_dialog").dialog("open");
+        });
+      })
+    </script>
+
+    <!-- 删除一个宿舍楼栋 -->
+    <script type="text/javascript">
+      $(function () {
+        $("#dormitory_dialog_del").dialog({
+          autoOpen: false,
+          show: "blind",
+          hide: "explode",
+          modal: true,
+          buttons: [
+            {
+              text: "确定",
+              click: function () {
+                $.ajax({
+                  url: "admin/delDormitorySeparately.do",
+                  data: {
+                    dormID: $("input[id=del_dDormID]").val()
+                  },
+                  type: "post",
+                  dataType: "json",
+                  success: function (res) {
+                    alert(res[0]);
+                  },
+                  error: function () {
+                    alert("删除失败");
+                  }
+                })
+
+                loadDormitoryData();
+                $(this).dialog("close");
+              }
+            },
+            {
+              text: "取消",
+              click: function () {
+                $(this).dialog("close");
+              }
+            }
+          ],
+          closeOnEscape: false,
+          title: "删除一个宿舍楼栋",
+          position: "center",
+          width: 400,
+          height: 330,
+          resizable: false,
+        });
+
+        $("#dormitory_dialog_delBtn").click(function () {
+          $("#dormitory_dialog_del").dialog("open");
+        });
+      })
+    </script>
+
+    <!-- 导入一批宿舍楼栋和房间 -->
+    <script type="text/javascript">
+      let DormitoryAndRoomSet = function() {
+        this.init = function() {
+          //模拟上传excel
+          $("#dormitory_uploadEventBtn").unbind("click").bind("click", function() {
+            $("#dormitory_uploadEventFile").click();
+          });
+          $("#dormitory_uploadEventFile").bind("change", function() {
+            $("#dormitory_uploadEventPath").attr("value", $("#dormitory_uploadEventFile").val());
+          });
+        };
+        //点击上传按钮
+        this.uploadBtn = function() {
+          let uploadEventFile = $("#dormitory_uploadEventFile").val();
+          if(uploadEventFile == '') {
+            alert("请选择Excel文件, 再上传");
+          }
+          else if(uploadEventFile.lastIndexOf(".xls") < 0) {
+            alert("只能上传Excel文件");
+          }
+          else {
+            let url = 'admin/uploadDormitoryAndRoom.do';
+            let formData = new FormData($('form')[2]);
+            dormitoryAndRoomSet.sendAjaxRequest(url, 'POST', formData);
+          }
+        };
+        this.sendAjaxRequest = function(url, type, data) {
+          $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            dataType: "json",
+            success: function(res) {
+              loadDormitoryData();
+              alert(res[0]);
+            },
+            error: function() {
+              alert("excel上传失败");
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+          });
+        };
+      }
+
+      let dormitoryAndRoomSet;
+      $(function() {
+        dormitoryAndRoomSet = new DormitoryAndRoomSet();
+        dormitoryAndRoomSet.init();
+      });
+    </script>
+
+    <!-- 添加一个宿舍 -->
+    <script type="text/javascript">
+      $(function () {
+        $("#room_dialog").dialog({
+          autoOpen: false,
+          show: "blind",
+          hide: "explode",
+          modal: true,
+          buttons: [
+            {
+              text: "确定",
+              click: function () {
+                $.ajax({
+                  url: "admin/addRoomSeparately.do",
+                  data: {
+                    roomID: $("input[id=add_rRoomID]").val(),
+                    dormID: currentDormID,
+                    numOfFloor: $("input[id=add_rNumOfFloor]").val(),
+                    roomCapacity: $("input[id=add_roomCapacity]").val(),
+                    roomState: $("input[id=add_roomState]").val()
+                  },
+                  type: "post",
+                  dataType: "json",
+                  success: function (res) {
+                    alert(res[0]);
+                  },
+                  error: function () {
+                    alert("添加失败");
+                  }
+                })
+
+                DormTarget(currentDormID);
+                $(this).dialog("close");
+              }
+            },
+            {
+              text: "取消",
+              click: function () {
+                $(this).dialog("close");
+              }
+            }
+          ],
+          closeOnEscape: false,
+          title: "添加一个宿舍",
+          position: "center",
+          width: 400,
+          height: 330,
+          resizable: false
+        });
+
+        $("#room_dialog_link").click(function () {
+          $("#room_dialog").dialog("open");
+        });
+      })
+    </script>
+
+    <!-- 删除一个宿舍 -->
+    <script type="text/javascript">
+      $(function () {
+        $("#room_dialog_del").dialog({
+          autoOpen: false,
+          show: "blind",
+          hide: "explode",
+          modal: true,
+          buttons: [
+            {
+              text: "确定",
+              click: function () {
+                $.ajax({
+                  url: "admin/delRoomSeparately.do",
+                  data: {
+                    dormID: currentDormID,
+                    roomID: $("input[id=del_rRoomID]").val()
+                  },
+                  type: "post",
+                  dataType: "json",
+                  success: function (res) {
+                    alert(res[0]);
+                  },
+                  error: function () {
+                    alert("删除失败");
+                  }
+                })
+
+                DormTarget(currentDormID);
+                $(this).dialog("close");
+              }
+            },
+            {
+              text: "取消",
+              click: function () {
+                $(this).dialog("close");
+              }
+            }
+          ],
+          closeOnEscape: false,
+          title: "删除一个宿舍",
+          position: "center",
+          width: 400,
+          height: 330,
+          resizable: false,
+        });
+
+        $("#room_dialog_delBtn").click(function () {
+          $("#room_dialog_del").dialog("open");
+        });
+      })
     </script>
 
     <style>
@@ -664,17 +991,17 @@
     <!-- 学生详细信息模块 -->
     <div id="studentDetail" class="detailDivs">
       <div>
-        <span class="infoText">姓名：</span><input id="detail_sName" type="text" name="sName" value="学生的姓名" readonly><br>
-        <span class="infoText">学号：</span><input id="detail_sID" type="number" name="sID" value="学生的学号" readonly><br>
-        <span class="infoText">性别：</span><input id="detail_sSex" type="text" name="sSex" value="学生的性别" readonly><br>
-        <span class="infoText">身份证号：</span><input id="detail_sIDcardNo" type="number" name="sIDcardNo" value="学生的身份证号码" readonly><br>
-        <span class="infoText">入学年份：</span><input id="detail_sEnrollYear" type="text" name="sEnrollYear" value="学生的入学时间" readonly><br>
-        <span class="infoText">手机号码：</span><input id="detail_sPhoneNumber" type="tel" name="sPhone" value="学生的手机号码" readonly><br>
-        <span class="infoText">邮箱地址：</span><input id="detail_sEmail" type="email" name="sEmail" value="学生的邮箱" readonly><br>
-        <span class="infoText">宿舍楼：</span><input id="detail_dormID" type="text" name="dormID" value="学生所在宿舍楼" readonly><br>
-        <span class="infoText">房间号：</span><input id="detail_roomID" type="text" name="roomID" value="学生所在的房间号" readonly><br>
-        <span class="infoText">在住状态：</span><input id="detail_livingState" type="text" name="livingState" value="学生在住状态" readonly><br>
-        <span class="infoText">在校状态：</span><input id="detail_schoolState" type="text" name="schoolState" value="学生在校状态" readonly><br>
+        <span class="infoText">姓名: </span> <input id="detail_sName" type="text" name="sName" value="学生的姓名" readonly> <br>
+        <span class="infoText">学号: </span> <input id="detail_sID" type="text" name="sID" value="学生的学号" readonly> <br>
+        <span class="infoText">性别: </span> <input id="detail_sSex" type="text" name="sSex" value="学生的性别" readonly> <br>
+        <span class="infoText">身份证号: </span> <input id="detail_sIDcardNo" type="text" name="sIDcardNo" value="学生的身份证号码" readonly> <br>
+        <span class="infoText">入学年份: </span> <input id="detail_sEnrollYear" type="text" name="sEnrollYear" value="学生的入学时间" readonly> <br>
+        <span class="infoText">手机号码: </span> <input id="detail_sPhoneNumber" type="text" name="sPhone" value="学生的手机号码" readonly> <br>
+        <span class="infoText">邮箱地址: </span> <input id="detail_sEmail" type="text" name="sEmail" value="学生的邮箱" readonly> <br>
+        <span class="infoText">宿舍楼: </span> <input id="detail_dormID" type="text" name="dormID" value="学生所在宿舍楼" readonly> <br>
+        <span class="infoText">房间号: </span> <input id="detail_roomID" type="text" name="roomID" value="学生所在的房间号" readonly> <br>
+        <span class="infoText">在住状态: </span> <input id="detail_livingState" type="text" name="livingState" value="学生在住状态" readonly> <br>
+        <span class="infoText">在校状态: </span> <input id="detail_schoolState" type="text" name="schoolState" value="学生在校状态" readonly> <br>
         <input type="button" id="sAlter" value="修改">
         <input type="submit" id="sSave" value="保存" disabled="disabled" onclick="ModifyStudentDetail()">
       </div>
@@ -741,113 +1068,137 @@
     <!-- 宿舍管理员详细信息模块 -->
     <div id="hparentDetail" class="detailDivs">
       <div>
-        <span class="infoText">姓名：</span><input type="text" name="hName" placeholder="宿管的姓名" readonly><br>
-        <span class="infoText">工号：</span><input type="number" name="hID" placeholder="宿管的工号" readonly><br>
-        <span class="infoText">性别：</span><input type="text" name="hSex" placeholder="宿管的性别" readonly><br>
-        <span class="infoText">身份证号码：</span><input type="number" name="hIDcardNo" placeholder="宿管的身份证号码" readonly><br>
-        <span class="infoText">手机号码：</span><input type="tel" name="hPhone" placeholder="宿管的手机号码" readonly><br>
-        <span class="infoText">邮箱地址：</span><input type="email" name="hEmail" placeholder="宿管的邮箱" readonly><br>
-        <span class="infoText">管理的宿舍楼：</span><input type="text" name="dormID" placeholder="管理的宿舍楼" readonly><br>
+        <span class="infoText">姓名: </span> <input id="detail_hName" type="text" name="hName" value="宿管的姓名" readonly> <br>
+        <span class="infoText">工号: </span> <input id="detail_hID" type="text" name="hID" value="宿管的工号" readonly> <br>
+        <span class="infoText">性别: </span> <input id="detail_hSex" type="text" name="hSex" value="宿管的性别" readonly> <br>
+        <span class="infoText">身份证号码: </span> <input id="detail_hIDcardNo" type="text" name="hIDcardNo" value="宿管的身份证号码" readonly> <br>
+        <span class="infoText">手机号码: </span> <input id="detail_hPhoneNumber" type="text" name="hPhone" value="宿管的手机号码" readonly> <br>
+        <span class="infoText">邮箱地址: </span> <input id="detail_hEmail" type="text" name="hEmail" value="宿管的邮箱" readonly> <br>
+        <span class="infoText">管理的宿舍楼: </span> <input id="detail_hDormID" type="text" name="dormID" value="管理的宿舍楼" readonly> <br>
         <input type="button" id="hAlter" value="修改">
-        <input type="submit" id="hSave" value="保存" disabled="disabled">
+        <input type="submit" id="hSave" value="保存" disabled="disabled" onclick="ModifyHouseparentDetail()">
       </div>
     </div>
 
     <!-- 宿舍楼模块 -->
     <div id = "dorm" class="functDivs">
-      <form id="dform" name="dform" method="post" action="">
+      <div id="dform" name="dform">
         <table width="698" border="0" cellpadding="0" cellspacing="0" id="dormTable">
+          <thead>
           <tr>
             <td width="32" align="center" bgcolor="#EFEFEF" Name="Num"><input type="checkbox" name="checkbox" value="checkbox" /></td>
-            <td width="186" bgcolor="#EFEFEF" Name="dID" EditType="TextBox">宿舍号</td>
-            <td width="186" bgcolor="#EFEFEF" Name="numOfFloor" EditType="TextBox">楼层数</td>
-            <td width="120" bgcolor="#EFEFEF" Name="dDetail" >详细信息</td>
+            <td width="186" bgcolor="#EFEFEF" Name="dID" EditType="TextBox">宿舍楼栋号</td>
+            <td width="186" bgcolor="#EFEFEF" Name="numOfFloor" EditType="TextBox">总楼层数</td>
+            <td width="120" bgcolor="#EFEFEF" Name="dDetail">详细信息</td>
           </tr>
-          <tr>
-            <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>
-            <td bgcolor="#FFFFFF">1091</td>
-            <td bgcolor="#FFFFFF">4</td>
-            <td bgcolor="#FFFFFF"><a href="#" onclick="DormTarget()">详细信息</a></td>
-          </tr>
-          <tr>
-            <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>
-            <td bgcolor="#FFFFFF">1094</td>
-            <td bgcolor="#FFFFFF">8</td>
-            <td bgcolor="#FFFFFF"><a href="#" onclick="DormTarget()">详细信息</a></td>
-          </tr>
+          </thead>
+
+          <tbody id="dormitoryInfo">
+
+          </tbody>
         </table>
 
-        <br />
-        <input type="button" name="dSubmit" value="新增" onclick="AddRow(document.getElementById('dormTable'),1)" />
-        <input type="button" name="dSubmit2" value="删除" onclick="DeleteRow(document.getElementById('dormTable'),1)" />
+        <br>
+        <!-- 添加一个宿舍楼栋 -->
+        <button id="dormitory_dialog_link">添加一个宿舍楼栋</button>
+        <div id="dormitory_dialog" align="center">
+          <br>
+          楼栋号: <input type="text" id="add_dDormID" name="addName_dDormID"> <br> <br>
+          总层数: <input type="text" id="add_dNumOfFloor" name="addName_dNumOfFloor"> <br> <br>
+        </div>
+
+        <!-- 删除一个宿舍楼栋 -->
+        <br> <br>
+        <button id="dormitory_dialog_delBtn">删除一个宿舍楼栋</button>
+        <div id="dormitory_dialog_del" align="center">
+          <br>
+          宿舍楼栋号: <input type="text" id="del_dDormID" name="delName_dDormID"> <br> <br>
+        </div>
+
         <input type="button" name="dSubmit22" value="重置" onclick="window.location.reload()" />
-        <input type="submit" name="dSubmit3" value="提交" onclick="" />
-        <input type="file" name="dSubmit4" value="选择文件" accept="*.xls"/>
-      </form>
+
+        <!-- 导入一批宿舍楼栋和房间 -->
+        <form enctype="multipart/form-data" id="dormitory_batchUpload" action="admin/uploadDormitoryAndRoom.do" method="post" class="form-horizontal">
+          <button class="btn btn-success btn-xs" id="dormitory_uploadEventBtn" style="height:26px;" type="button">选择文件</button>
+          <input type="file" name="file" style="width:0px;height:0px;" id="dormitory_uploadEventFile">
+          <input id="dormitory_uploadEventPath" disabled="disabled" type="text">
+        </form>
+        <button type="button" class="btn btn-success btn-sm"  onclick="dormitoryAndRoomSet.uploadBtn()">上传</button>
+
+        <!-- 查看所有宿舍楼栋信息 -->
+        <input type="button" id="dormitoryInfoLoader" value="查询所有宿舍楼栋">
+      </div>
     </div>
 
     <!-- 宿舍楼详细信息模块 -->
     <div id="dormDetail" class="detailDivs">
-      <form id="rform" name="rform" method="post" action="">
+      <div id="rform" name="rform">
         <table width="698" border="0" cellpadding="0" cellspacing="0" id="roomTable">
+          <thead>
           <tr>
             <td width="32" align="center" bgcolor="#EFEFEF" Name="Num"><input type="checkbox" name="checkbox" value="checkbox" /></td>
-            <td width="186" bgcolor="#EFEFEF" Name="dID" EditType="TextBox">宿舍号</td>
-            <td width="186" bgcolor="#EFEFEF" Name="numOfFloor" EditType="TextBox">楼层数</td>
-            <td width="186" bgcolor="#EFEFEF" Name="rID" EditType="TextBox">房间号</td>
-            <td width="186" bgcolor="#EFEFEF" Name=" roomCapacity" EditType="DropDownList" DataItems="{text:'4',value:'4'},{text:'6',value:'6'}">房间容纳人数</td>
-            <td width="186" bgcolor="#EFEFEF" Name="roomState" EditType="DropDownList" DataItems="{text:'已满',value:'已满'},{text:'未满',value:'未满'}">房间状态</td>
+            <td width="186" bgcolor="#EFEFEF" Name="dID" EditType="TextBox">宿舍楼栋号</td>
+            <td width="186" bgcolor="#EFEFEF" Name="numOfFloor" EditType="TextBox">总楼层数</td>
+            <td width="186" bgcolor="#EFEFEF" Name="rID" EditType="TextBox">宿舍房间号</td>
+            <td width="186" bgcolor="#EFEFEF" Name="rNumOfFloor" EditType="TextBox">宿舍所在楼层</td>
+            <td width="186" bgcolor="#EFEFEF" Name=" roomCapacity" EditType="TextBox">宿舍容纳人数</td>
+            <td width="186" bgcolor="#EFEFEF" Name="roomState" EditType="TextBox">宿舍状态</td>
           </tr>
-          <tr>
-            <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>
-            <td bgcolor="#FFFFFF">A2</td>
-            <td bgcolor="#FFFFFF">4</td>
-            <td bgcolor="#FFFFFF">103</td>
-            <td bgcolor="#FFFFFF" Value="4">4</td>
-            <td bgcolor="#FFFFFF" Value="已满">已满</td>
-          </tr>
-          <tr>
-            <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>
-            <td bgcolor="#FFFFFF">A1</td>
-            <td bgcolor="#FFFFFF">6</td>
-            <td bgcolor="#FFFFFF">103</td>
-            <td bgcolor="#FFFFFF" Value="6">6</td>
-            <td bgcolor="#FFFFFF" Value="未满">未满</td>
-          </tr>
+          </thead>
+
+          <tbody id="dormitoryAndRoomDetail">
+
+          </tbody>
         </table>
 
-        <br />
-        <input type="button" name="dSubmit" value="新增" onclick="AddRow(document.getElementById('roomTable'),1)" />
-        <input type="button" name="dSubmit2" value="删除" onclick="DeleteRow(document.getElementById('roomTable'),1)" />
+        <br>
+        <!-- 添加一个宿舍 -->
+        <button id="room_dialog_link">添加一个宿舍</button>
+        <div id="room_dialog" align="center">
+          <br>
+          宿舍房间号: <input type="text" id="add_rRoomID" name="addName_rRoomID"> <br> <br>
+          宿舍所在楼层: <input type="text" id="add_rNumOfFloor" name="addName_rNumOfFloor"> <br> <br>
+          宿舍容纳人数: <input type="text" id="add_roomCapacity" name="addName_roomCapacity"> <br> <br>
+          宿舍状态: <input type="text" id="add_roomState" name="addName_roomState"> <br> <br>
+        </div>
+
+        <!-- 删除一个宿舍楼栋 -->
+        <br> <br>
+        <button id="room_dialog_delBtn">删除一个宿舍楼栋</button>
+        <div id="room_dialog_del" align="center">
+          <br>
+          宿舍房间号: <input type="text" id="del_rRoomID" name="delName_rRoomID"> <br> <br>
+        </div>
+
         <input type="button" name="dSubmit22" value="重置" onclick="window.location.reload()" />
-        <input type="submit" name="dSubmit3" value="提交" onclick="" />
-        <input type="file" name="dSubmit4" value="选择文件" accept="*.xls"/>
-      </form>
+
+        <!-- 查看宿舍楼栋详细信息 -->
+        <input type="button" id="roomInfoLoader" onclick="DormTarget(currentDormID)" value="刷新">
+      </div>
     </div>
   </div>
 
   </body>
 
   <script>
+    // 保存当前页面是哪个宿舍楼栋的详细信息
+    let currentDormID;
+
     let menuLists = document.querySelector("#menu").querySelectorAll("li");
     let functDivs = document.querySelectorAll(".functDivs");
     let detailDivs = document.querySelectorAll(".detailDivs");
-    for(let i = 0;i<menuLists.length;i++)
-    {
-      menuLists[i].addEventListener("click",function(){
+    for(let i = 0; i < menuLists.length; i++) {
+      menuLists[i].addEventListener("click", function() {
         let j = 0;
         let k = 0;
-        for(;j<functDivs.length;j++)
-        {
+        for(;j < functDivs.length; j++) {
           functDivs[j].style.display = "none";
-          if(menuLists[j]==this)
-          {
+          if(menuLists[j] == this) {
             k = j;
           }
         }
-        for(let l = 0;l<detailDivs.length;l++)
-        {
-          detailDivs[l].style.display="none";
+        for(let l = 0; l < detailDivs.length; l++) {
+          detailDivs[l].style.display = "none";
         }
         let nav = document.querySelector("#nav")
         switch(k)
@@ -876,40 +1227,36 @@
     let aAlter = document.querySelector("#aAlter");
     let aSave = document.querySelector("#aSave");
     let infoInputs = document.querySelector("#info").querySelectorAll("input");
-    aAlter.addEventListener("click",function(){
+    aAlter.addEventListener("click", function() {
       this.disabled = true;
       aSave.disabled = false;
-      for(let i = 0;i<infoInputs.length-2;i++)
-      {
-        infoInputs[i].readOnly=false;
+      for(let i = 0; i < infoInputs.length-2; i++) {
+        infoInputs[i].readOnly = false;
       }
     })
-    aSave.addEventListener("click",function(){
+    aSave.addEventListener("click", function() {
       this.disabled = true;
       aAlter.disabled = false;
-      for(let i = 0;i<infoInputs.length-2;i++)
-      {
-        infoInputs[i].readOnly=true;
+      for(let i = 0; i < infoInputs.length-2; i++) {
+        infoInputs[i].readOnly = true;
       }
     })
 
     let sAlter = document.querySelector("#sAlter");
     let sSave = document.querySelector("#sSave");
     let studInputs = document.querySelector("#studentDetail").querySelectorAll("input");
-    sAlter.addEventListener("click",function(){
+    sAlter.addEventListener("click", function() {
       this.disabled = true;
       sSave.disabled = false;
-      for(let i = 0;i<studInputs.length-2;i++)
-      {
-        studInputs[i].readOnly=false;
+      for(let i = 0; i < studInputs.length-2; i++) {
+        studInputs[i].readOnly = false;
       }
     })
-    sSave.addEventListener("click",function(){
+    sSave.addEventListener("click", function() {
       this.disabled = true;
       sAlter.disabled = false;
-      for(let i = 0;i<studInputs.length-2;i++)
-      {
-        studInputs[i].readOnly=true;
+      for(let i = 0; i < studInputs.length-2; i++) {
+        studInputs[i].readOnly = true;
       }
     })
 
@@ -919,17 +1266,15 @@
     hAlter.addEventListener("click",function(){
       this.disabled = true;
       hSave.disabled = false;
-      for(let i = 0;i<hparentInputs.length-2;i++)
-      {
-        hparentInputs[i].readOnly=false;
+      for(let i = 0; i < hparentInputs.length-2; i++) {
+        hparentInputs[i].readOnly = false;
       }
     })
-    hSave.addEventListener("click",function(){
+    hSave.addEventListener("click", function() {
       this.disabled = true;
       hAlter.disabled = false;
-      for(let i = 0;i<hparentInputs.length-2;i++)
-      {
-        hparentInputs[i].readOnly=true;
+      for(let i = 0; i < hparentInputs.length-2; i++) {
+        hparentInputs[i].readOnly = true;
       }
     })
 
@@ -987,24 +1332,90 @@
       searchDetail_student.searchStudentDetail(sID);
     }
 
-    function HparentTarget()
-    {
-      for(let j = 0;j<functDivs.length;j++)
-      {
+    // 跳转到宿舍管理员详细信息界面, 并显示该名宿舍管理员的详细信息
+    let houseparentDetail = function () {
+      this.searchHouseparentDetail = function (hID) {
+        <!-- 进入到宿舍管理员详细信息界面时, 发起异步请求: 根据工号查询其详细信息 -->
+        $.ajax({
+          url: "admin/searchHouseparentDetail.do",
+          type: "post",
+          dataType: "json",
+          data: {
+            hID: hID
+          },
+          success: function (houseparent) {
+            document.getElementById("detail_hName").value = houseparent.hName;
+            document.getElementById("detail_hID").value = houseparent.hID;
+            document.getElementById("detail_hSex").value = houseparent.hSex;
+            document.getElementById("detail_hIDcardNo").value = houseparent.hIDcardNo;
+            document.getElementById("detail_hPhoneNumber").value = houseparent.hPhoneNumber;
+            document.getElementById("detail_hEmail").value = houseparent.hEmail;
+            document.getElementById("detail_hDormID").value = houseparent.dormID;
+          }
+        })
+      }
+    }
+
+    let searchDetail_houseparent;
+    $(function () {
+      searchDetail_houseparent = new houseparentDetail();
+    });
+
+    function HparentTarget(hID) {
+      for(let j = 0; j < functDivs.length; j++) {
         functDivs[j].style.display = "none";
       }
       let hparentDetail = document.querySelector("#hparentDetail");
       hparentDetail.style.display = "block";
+
+      searchDetail_houseparent.searchHouseparentDetail(hID);
     }
 
-    function DormTarget()
-    {
-      for(let j = 0;j<functDivs.length;j++)
-      {
+    // 跳转到宿舍楼栋详细信息界面, 并显示该宿舍楼栋的详细信息
+    let dormitoryDetail = function () {
+      this.searchDormitoryDetail = function (dormID) {
+        <!-- 进入到宿舍楼栋详细信息界面时, 发起异步请求: 根据宿舍楼栋号查询其详细信息 -->
+        $.ajax({
+          url: "admin/searchDormitoryDetail.do",
+          type: "post",
+          dataType: "json",
+          data: {
+            dormID: dormID
+          },
+          success: function (dormitoryAndRoomList) {
+            // 清除旧的数据
+            $("#dormitoryAndRoomDetail").html("");
+            // 添加新的数据
+            $.each(dormitoryAndRoomList, function (i, dormitoryAndRoom) {
+              $("#dormitoryAndRoomDetail").append("<tr>")
+                  .append('<td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>')
+                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.dormID + '</td>')
+                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.dormNumOfFloor + '</td>')
+                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.roomID + '</td>')
+                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.roomNumOfFloor + '</td>')
+                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.roomCapacity + '</td>')
+                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.roomState + '</td>')
+                  .append("</tr>")
+            })
+          }
+        })
+      }
+    }
+
+    let searchDetail_dormitory;
+    $(function () {
+      searchDetail_dormitory = new dormitoryDetail();
+    });
+
+    function DormTarget(dormID) {
+      for(let j = 0; j < functDivs.length; j++) {
         functDivs[j].style.display = "none";
       }
       let dormDetail = document.querySelector("#dormDetail");
       dormDetail.style.display = "block";
+
+      currentDormID = dormID;
+      searchDetail_dormitory.searchDormitoryDetail(dormID);
     }
   </script>
 
