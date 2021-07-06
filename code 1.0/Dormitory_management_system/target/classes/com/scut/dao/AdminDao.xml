@@ -11,9 +11,10 @@
 
     <insert id="insertStudentSeparately">
         insert into student(sID, sName, sSex, sIDcardNo, sEnrollYear, sPassword, sPhoneNumber, sEmail,
-                            dormID, roomID, livingState, schoolState) values(#{sID}, #{sName}, #{sSex}, #{sIDcardNo},
-                            #{sEnrollYear}, #{sPassword}, #{sPhoneNumber}, #{sEmail}, #{dormID}, #{roomID},
-                            #{livingState}, #{schoolState})
+                            dormID, roomID, livingState, schoolState, CheckInDate, CheckOutDate, department)
+                            values(#{sID}, #{sName}, #{sSex}, #{sIDcardNo}, #{sEnrollYear}, #{sPassword},
+                                   #{sPhoneNumber}, #{sEmail}, #{dormID}, #{roomID}, #{livingState},
+                                   #{schoolState}, #{CheckInDate}, #{CheckOutDate}, #{department})
     </insert>
 
     <delete id="deleteStudentSeparately">

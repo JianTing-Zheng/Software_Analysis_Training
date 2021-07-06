@@ -15,6 +15,34 @@ public class Student {
     private String livingState;
     private String schoolState;
 
+    private String CheckInDate;
+    private String CheckOutDate;
+    private String department;
+
+    public String getCheckInDate() {
+        return CheckInDate;
+    }
+
+    public void setCheckInDate(String checkInDate) {
+        CheckInDate = checkInDate;
+    }
+
+    public String getCheckOutDate() {
+        return CheckOutDate;
+    }
+
+    public void setCheckOutDate(String checkOutDate) {
+        CheckOutDate = checkOutDate;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     public String getsID() {
         return sID;
     }

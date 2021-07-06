@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scut.dao.HouseparentDao">
+
+    <select id="selectHouseparentDetail" resultType="Houseparent">
+        select hID, hName, hSex, hIDcardNo, hPassword, hPhoneNumber, hEmail, dormID from houseparent where hID=#{hID}
+    </select>
+
+    <select id="selectRoomAmount" resultType="int">
+        select count(distinct roomID) from room where dormID=#{dormID}
+    </select>
+
+    <select id="selectFreeRoomAmount" resultType="int">
+        select count(distinct roomID) from room where dormID=#{dormID} and roomState=0
+    </select>
+
+    <select id="selectBedAmount" resultType="int">
+        select sum(roomCapacity) from room group by dormID having dormID=#{dormID}
+    </select>
+
+    <select id="selectCheckInAmount" resultType="int">
+        select count(sID) from student group by dormID having dormID=#{dormID}
+    </select>
+
+    <select id="selectStudentInfo" resultType="Student">
+        select * from student where ((#{dormID} is not null and dormID=#{dormID}) or #{dormID} = null)
+                                and ((#{sEnrollYear} is not null and sEnrollYear=#{sEnrollYear}) or #{sEnrollYear} = null)
+                                and ((#{department} is not null and department=#{department}) or #{department} = null)
+                                and ((#{livingState} is not null and livingState=#{livingState}) or #{livingState} = null)
+    </select>
+
+    <update id="updateHouseparentDetail">
+        update houseparent set hPassword=#{hPassword}, hPhoneNumber=#{hPhoneNumber} where hID=#{hID}
+    </update>
+
+</mapper>

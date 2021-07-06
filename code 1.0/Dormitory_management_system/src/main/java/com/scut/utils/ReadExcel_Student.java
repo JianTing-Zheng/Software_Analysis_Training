@@ -204,6 +204,21 @@ public class ReadExcel_Student {
                         String schoolState = cell.getStringCellValue() + "";
                         student.setSchoolState(schoolState);
                     }
+                    else if (c == 12) {
+                        cell.setCellType(1);
+                        String CheckInDate = cell.getStringCellValue() + "";
+                        student.setCheckInDate(CheckInDate);
+                    }
+                    else if (c == 13) {
+                        cell.setCellType(1);
+                        String CheckOutDate = cell.getStringCellValue() + "";
+                        student.setCheckOutDate(CheckOutDate);
+                    }
+                    else if (c == 14) {
+                        cell.setCellType(1);
+                        String department = cell.getStringCellValue() + "";
+                        student.setDepartment(department);
+                    }
                 }
             }
             // 添加到list

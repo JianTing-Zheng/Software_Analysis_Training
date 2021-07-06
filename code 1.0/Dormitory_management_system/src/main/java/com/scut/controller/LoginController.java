@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -14,12 +15,15 @@ public class LoginController {
     private LoginService service;
 
     @RequestMapping(value = "/login.do")
-    public ModelAndView login(String id, String password, String identity) {
+    public ModelAndView login(String id, String password, String identity, HttpSession httpSession) {
         ModelAndView mv = new ModelAndView();
         if(identity.equals("student")) {
             int res = service.isMatching(id, password, 0);
             if(res == 1) {
                 mv.setViewName("studentIndex");
+
+                // 存放当前登录学生id
+                httpSession.setAttribute("currentStudentID", id);
             }
             else {
                 mv.setViewName("studentLoginFail");
@@ -29,6 +33,9 @@ public class LoginController {
             int res = service.isMatching(id, password, 1);
             if(res == 1) {
                 mv.setViewName("houseparentIndex");
+
+                // 存放当前登录宿管id
+                httpSession.setAttribute("currentHpID", id);
             }
             else {
                 mv.setViewName("houseparentLoginFail");

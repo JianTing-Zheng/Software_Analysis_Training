@@ -79,7 +79,10 @@
                     dormID: $("input[id=add_dormID]").val(),
                     roomID: $("input[id=add_roomID]").val(),
                     livingState: $("input[id=add_livingState]").val(),
-                    schoolState: $("input[id=add_schoolState]").val()
+                    schoolState: $("input[id=add_schoolState]").val(),
+                    CheckInDate: $("input[id=add_checkInDate]").val(),
+                    CheckOutDate: $("input[id=add_checkOutDate]").val(),
+                    department: $("input[id=add_department]").val()
                   },
                   type: "post",
                   dataType: "json",
@@ -884,6 +887,10 @@
             border:2px solid blue;
             display: none;
         }
+
+        .btn_inline{
+          display: inline-block;
+        }
     </style>
   </head>
 
@@ -948,7 +955,7 @@
 
         <br>
         <!-- 添加一个学生 -->
-        <button id="dialog_link">添加一个学生</button>
+        <button id="dialog_link" class="btn_inline">添加一个学生</button>
         <div id="dialog" align="center">
           <br>
           学号: <input type="text" id="add_sID" name="sID"> <br> <br>
@@ -963,28 +970,31 @@
           房间号: <input type="text" id="add_roomID" name="roomID"> <br> <br>
           在住状态: <input type="text" id="add_livingState" name="livingState"> <br> <br>
           就读状态: <input type="text" id="add_schoolState" name="schoolState"> <br> <br>
+          入住时间: <input type="text" id="add_checkInDate" name="checkInDate"> <br> <br>
+          退宿时间: <input type="text" id="add_checkOutDate" name="checkOutDate"> <br> <br>
+          学院: <input type="text" id="add_department" name="department"> <br> <br>
         </div>
 
         <!-- 删除一个学生 -->
-        <br> <br>
-        <button id="dialog_delBtn">删除一个学生</button>
+        <button id="dialog_delBtn" class="btn_inline">删除一个学生</button>
         <div id="dialog_del" align="center">
           <br>
           学号: <input type="text" id="del_id" name="id"> <br> <br>
         </div>
 
-        <input type="button" name="sSubmit22" value="重置" onclick="window.location.reload()" />
+        <!-- 查看学生信息 -->
+        <input type="button" id="btnLoader" value="查询所有学生" class="btn_inline">
 
+        <input type="button" name="sSubmit22" value="重置" onclick="window.location.reload()" class="btn_inline" />
+
+        <br> <br>
         <!-- 导入一批学生 -->
         <form enctype="multipart/form-data" id="batchUpload" action="admin/uploadStudent.do" method="post" class="form-horizontal">
-          <button class="btn btn-success btn-xs" id="uploadEventBtn" style="height:26px;" type="button">选择文件</button>
+          <button class="btn btn-success btn-xs btn_inline" id="uploadEventBtn" style="height:26px;" type="button">选择文件</button>
           <input type="file" name="file" style="width:0px;height:0px;" id="uploadEventFile">
           <input id="uploadEventPath" disabled="disabled" type="text">
         </form>
-        <button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn()">上传</button>
-
-        <!-- 查看学生信息 -->
-        <input type="button" id="btnLoader" value="查询所有学生">
+        <button type="button" class="btn btn-success btn-sm btn_inline"  onclick="user.uploadBtn()">上传</button>
       </div>
     </div>
 
@@ -1029,7 +1039,7 @@
 
         <br>
         <!-- 添加一个宿舍管理员 -->
-        <button id="houseparent_dialog_link">添加一个宿舍管理员</button>
+        <button id="houseparent_dialog_link" class="btn_inline">添加一个宿舍管理员</button>
         <div id="houseparent_dialog" align="center">
           <br>
           工号: <input type="text" id="add_hID" name="addName_hID"> <br> <br>
@@ -1043,25 +1053,25 @@
         </div>
 
         <!-- 删除一个宿舍管理员 -->
-        <br> <br>
-        <button id="houseparent_dialog_delBtn">删除一个宿舍管理员</button>
+        <button id="houseparent_dialog_delBtn" class="btn_inline">删除一个宿舍管理员</button>
         <div id="houseparent_dialog_del" align="center">
           <br>
           工号: <input type="text" id="del_hID" name="delName_hID"> <br> <br>
         </div>
 
-        <input type="button" name="hSubmit22" value="重置" onclick="window.location.reload()" />
+        <!-- 查看宿舍管理员信息 -->
+        <input type="button" id="houseparentInfoLoader" value="查询所有宿舍管理员" class="btn_inline">
 
+        <input type="button" name="hSubmit22" value="重置" onclick="window.location.reload()" class="btn_inline" />
+
+        <br> <br>
         <!-- 导入一批宿舍管理员 -->
         <form enctype="multipart/form-data" id="houseparent_batchUpload" action="admin/uploadHouseparent.do" method="post" class="form-horizontal">
-          <button class="btn btn-success btn-xs" id="houseparent_uploadEventBtn" style="height:26px;" type="button">选择文件</button>
+          <button class="btn btn-success btn-xs btn_inline" id="houseparent_uploadEventBtn" style="height:26px;" type="button">选择文件</button>
           <input type="file" name="file" style="width:0px;height:0px;" id="houseparent_uploadEventFile">
           <input id="houseparent_uploadEventPath" disabled="disabled" type="text">
         </form>
-        <button type="button" class="btn btn-success btn-sm"  onclick="houseparentSet.uploadBtn()">上传</button>
-
-        <!-- 查看宿舍管理员信息 -->
-        <input type="button" id="houseparentInfoLoader" value="查询所有宿舍管理员">
+        <button type="button" class="btn btn-success btn-sm btn_inline"  onclick="houseparentSet.uploadBtn()">上传</button>
       </div>
     </div>
 
@@ -1100,7 +1110,7 @@
 
         <br>
         <!-- 添加一个宿舍楼栋 -->
-        <button id="dormitory_dialog_link">添加一个宿舍楼栋</button>
+        <button id="dormitory_dialog_link" class="btn_inline">添加一个宿舍楼栋</button>
         <div id="dormitory_dialog" align="center">
           <br>
           楼栋号: <input type="text" id="add_dDormID" name="addName_dDormID"> <br> <br>
@@ -1108,15 +1118,18 @@
         </div>
 
         <!-- 删除一个宿舍楼栋 -->
-        <br> <br>
-        <button id="dormitory_dialog_delBtn">删除一个宿舍楼栋</button>
+        <button id="dormitory_dialog_delBtn" class="btn_inline">删除一个宿舍楼栋</button>
         <div id="dormitory_dialog_del" align="center">
           <br>
           宿舍楼栋号: <input type="text" id="del_dDormID" name="delName_dDormID"> <br> <br>
         </div>
 
-        <input type="button" name="dSubmit22" value="重置" onclick="window.location.reload()" />
+        <!-- 查看所有宿舍楼栋信息 -->
+        <input type="button" id="dormitoryInfoLoader" value="查询所有宿舍楼栋" class="btn_inline">
 
+        <input type="button" name="dSubmit22" value="重置" onclick="window.location.reload()" class="btn_inline" />
+
+        <br> <br>
         <!-- 导入一批宿舍楼栋和房间 -->
         <form enctype="multipart/form-data" id="dormitory_batchUpload" action="admin/uploadDormitoryAndRoom.do" method="post" class="form-horizontal">
           <button class="btn btn-success btn-xs" id="dormitory_uploadEventBtn" style="height:26px;" type="button">选择文件</button>
@@ -1124,9 +1137,6 @@
           <input id="dormitory_uploadEventPath" disabled="disabled" type="text">
         </form>
         <button type="button" class="btn btn-success btn-sm"  onclick="dormitoryAndRoomSet.uploadBtn()">上传</button>
-
-        <!-- 查看所有宿舍楼栋信息 -->
-        <input type="button" id="dormitoryInfoLoader" value="查询所有宿舍楼栋">
       </div>
     </div>
 
@@ -1163,7 +1173,6 @@
         </div>
 
         <!-- 删除一个宿舍楼栋 -->
-        <br> <br>
         <button id="room_dialog_delBtn">删除一个宿舍楼栋</button>
         <div id="room_dialog_del" align="center">
           <br>
