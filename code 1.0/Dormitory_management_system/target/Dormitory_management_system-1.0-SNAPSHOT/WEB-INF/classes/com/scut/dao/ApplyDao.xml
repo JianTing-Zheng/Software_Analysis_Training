@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scut.dao.ApplyDao">
+
+    <select id="selectApplication" resultType="Application">
+        select applyID, applyType, applyIntention, applyTime, applyState, handleTime
+            from application where sID=#{sID} order by applyID asc
+    </select>
+
+    <select id="selectApplicationDetail" resultType="Application">
+        select applyID,applyType,applyReason,applyIntention,applyTime,
+              applyState,handleTime from application where applyID=#{applyID}
+    </select>
+
+    <insert id="insertApplication">
+        insert into application(applyType, applyReason, applyIntention, sID, applyTime, applyState)
+               values(#{applyType}, #{applyReason}, #{applyIntention}, #{sID}, #{applyTime}, #{applyState})
+    </insert>
+
+    <update id="updateApplication">
+        update application set applyType=#{applyType},applyReason=#{applyReason},
+                               applyIntention=#{applyIntention}
+                                where applyID=#{applyID}
+    </update>
+
+    <delete id="deleteApplication">
+        delete from application where applyID=#{applyID}
+    </delete>
+
+    <select id="selectStudentOwn" resultType="Student">
+        select sID, sName, sSex, sIDcardNo, sEnrollYear, sPassword, sPhoneNumber, sEmail,
+               dormID, roomID, livingState, schoolState, checkInDate, checkOutDate, department
+                from student where sID=#{sID}
+    </select>
+
+    <update id="updateStudentOwn">
+        update student set sPhoneNumber=#{sPhoneNumber}, sEmail=#{sEmail} where sID=#{sID}
+    </update>
+
+    <update id="checkInStudentOwn">
+        update student set livingState=1, CheckInDate=#{CheckInDate} where sID=#{sID}
+    </update>
+
+    <update id="checkOutStudentOwn">
+        update student set livingState=0, CheckOutDate=#{CheckOutDate} where sID=#{sID}
+    </update>
+</mapper>
+
+

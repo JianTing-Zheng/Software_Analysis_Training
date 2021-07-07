@@ -36,14 +36,21 @@
             $("#studentInfo").html("");
             // 添加新的数据
             $.each(data, function (i, n) {
+              if(n.sSex == "0") {
+                n.sSex = "女";
+              }
+              else if(n.sSex == "1") {
+                n.sSex = "男";
+              }
+
               $("#studentInfo").append("<tr>")
                   .append('<td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>')
-                  .append('<td bgcolor="#FFFFFF">' + n.sID + "</td>")
-                  .append('<td bgcolor="#FFFFFF">' + n.sName + "</td>")
-                  .append('<td bgcolor="#FFFFFF">' + n.sSex + "</td>")
-                  .append('<td bgcolor="#FFFFFF">' + n.dormID + "</td>")
-                  .append('<td bgcolor="#FFFFFF">' + n.roomID + "</td>")
-                  .append('<td bgcolor="#FFFFFF"><a href="#" onclick="StudentTarget('+ n.sID +')">详细信息</a></td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + n.sID + "</td>")
+                  .append('<td align="center" bgcolor="#FFFFFF">' + n.sName + "</td>")
+                  .append('<td align="center" bgcolor="#FFFFFF">' + n.sSex + "</td>")
+                  .append('<td align="center" bgcolor="#FFFFFF">' + n.dormID + "</td>")
+                  .append('<td align="center" bgcolor="#FFFFFF">' + n.roomID + "</td>")
+                  .append('<td align="center" bgcolor="#FFFFFF"><a href="#" onclick="StudentTarget('+ n.sID +')">详细信息</a></td>')
                   .append("</tr>")
             })
           }
@@ -254,7 +261,12 @@
           success: function (admin) {
             document.getElementById("admin_detail_aName").value = admin.aName;
             document.getElementById("admin_detail_aID").value = admin.aID;
-            document.getElementById("admin_detail_aSex").value = admin.aSex;
+            if(admin.aSex == "0") {
+              document.getElementById("admin_detail_aSex").value = "女";
+            }
+            else if(admin.aSex == "1") {
+              document.getElementById("admin_detail_aSex").value = "男";
+            }
             document.getElementById("admin_detail_aIDcardNo").value = admin.aIDcardNo;
             document.getElementById("admin_detail_aPhoneNumber").value = admin.aPhoneNumber;
             document.getElementById("admin_detail_aEmail").value = admin.aEmail;
@@ -308,13 +320,20 @@
             $("#houseparentInfo").html("");
             // 添加新的数据
             $.each(houseparents, function (i, houseparent) {
+              if(houseparent.hSex == "0") {
+                houseparent.hSex = "女";
+              }
+              else if(houseparent.hSex == "1") {
+                houseparent.hSex = "男";
+              }
+
               $("#houseparentInfo").append("<tr>")
                   .append('<td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>')
-                  .append('<td bgcolor="#FFFFFF">' + houseparent.hID + '</td>')
-                  .append('<td bgcolor="#FFFFFF">' + houseparent.hName + '</td>')
-                  .append('<td bgcolor="#FFFFFF">' + houseparent.hSex + '</td>')
-                  .append('<td bgcolor="#FFFFFF">' + houseparent.dormID + '</td>')
-                  .append('<td bgcolor="#FFFFFF"><a href="#" onclick="HparentTarget(\''+ houseparent.hID +'\')">详细信息</a></td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + houseparent.hID + '</td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + houseparent.hName + '</td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + houseparent.hSex + '</td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + houseparent.dormID + '</td>')
+                  .append('<td align="center" bgcolor="#FFFFFF"><a href="#" onclick="HparentTarget(\''+ houseparent.hID +'\')">详细信息</a></td>')
                   .append("</tr>")
             })
           }
@@ -535,9 +554,9 @@
             $.each(dormitories, function (i, dormitory) {
               $("#dormitoryInfo").append("<tr>")
                   .append('<td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>')
-                  .append('<td bgcolor="#FFFFFF">' + dormitory.dormID + "</td>")
-                  .append('<td bgcolor="#FFFFFF">' + dormitory.numOfFloor + "</td>")
-                  .append('<td bgcolor="#FFFFFF"><a href="#" onclick="DormTarget(\''+ dormitory.dormID +'\')">详细信息</a></td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + dormitory.dormID + "</td>")
+                  .append('<td align="center" bgcolor="#FFFFFF">' + dormitory.numOfFloor + "</td>")
+                  .append('<td align="center" bgcolor="#FFFFFF"><a href="#" onclick="DormTarget(\''+ dormitory.dormID +'\')">详细信息</a></td>')
                   .append("</tr>")
             })
           }
@@ -939,12 +958,12 @@
           <thead>
           <tr>
             <td width="32" align="center" bgcolor="#EFEFEF" Name="Num"><input type="checkbox" name="checkbox" value="checkbox" /></td>
-            <td width="186" bgcolor="#EFEFEF" Name="sID" EditType="TextBox">学号</td>
-            <td width="186" bgcolor="#EFEFEF" Name="sName" EditType="TextBox">姓名</td>
-            <td width="152" bgcolor="#EFEFEF" Name="sSex" EditType="DropDownList">性别</td>
-            <td width="103" bgcolor="#EFEFEF" Name="dormID" EditType="DropDownList">宿舍楼</td>
-            <td width="103" bgcolor="#EFEFEF" Name="roomID" EditType="DropDownList">房间号</td>
-            <td width="120" bgcolor="#EFEFEF" Name="sDetail" >详细信息</td>
+            <td width="186" align="center" bgcolor="#EFEFEF" Name="sID" EditType="TextBox">学号</td>
+            <td width="186" align="center" bgcolor="#EFEFEF" Name="sName" EditType="TextBox">姓名</td>
+            <td width="152" align="center" bgcolor="#EFEFEF" Name="sSex" EditType="DropDownList">性别</td>
+            <td width="103" align="center" bgcolor="#EFEFEF" Name="dormID" EditType="DropDownList">宿舍楼</td>
+            <td width="103" align="center" bgcolor="#EFEFEF" Name="roomID" EditType="DropDownList">房间号</td>
+            <td width="120" align="center" bgcolor="#EFEFEF" Name="sDetail" >详细信息</td>
           </tr>
           </thead>
 
@@ -1024,11 +1043,11 @@
           <thead>
           <tr>
             <td width="32" align="center" bgcolor="#EFEFEF" Name="Num"><input type="checkbox" name="checkbox" value="checkbox" /></td>
-            <td width="186" bgcolor="#EFEFEF" Name="hID" EditType="TextBox">工号</td>
-            <td width="186" bgcolor="#EFEFEF" Name="hName" EditType="TextBox">姓名</td>
-            <td width="152" bgcolor="#EFEFEF" Name="hSex" EditType="TextBox">性别</td>
-            <td width="123" bgcolor="#EFEFEF" Name="dormID" EditType="TextBox">管理的宿舍楼</td>
-            <td width="120" bgcolor="#EFEFEF" Name="hDetail">详细信息</td>
+            <td width="186" align="center" bgcolor="#EFEFEF" Name="hID" EditType="TextBox">工号</td>
+            <td width="186" align="center" bgcolor="#EFEFEF" Name="hName" EditType="TextBox">姓名</td>
+            <td width="152" align="center" bgcolor="#EFEFEF" Name="hSex" EditType="TextBox">性别</td>
+            <td width="123" align="center" bgcolor="#EFEFEF" Name="dormID" EditType="TextBox">管理的宿舍楼</td>
+            <td width="120" align="center" bgcolor="#EFEFEF" Name="hDetail">详细信息</td>
           </tr>
           </thead>
 
@@ -1097,9 +1116,9 @@
           <thead>
           <tr>
             <td width="32" align="center" bgcolor="#EFEFEF" Name="Num"><input type="checkbox" name="checkbox" value="checkbox" /></td>
-            <td width="186" bgcolor="#EFEFEF" Name="dID" EditType="TextBox">宿舍楼栋号</td>
-            <td width="186" bgcolor="#EFEFEF" Name="numOfFloor" EditType="TextBox">总楼层数</td>
-            <td width="120" bgcolor="#EFEFEF" Name="dDetail">详细信息</td>
+            <td width="186" align="center" bgcolor="#EFEFEF" Name="dID" EditType="TextBox">宿舍楼栋号</td>
+            <td width="186" align="center" bgcolor="#EFEFEF" Name="numOfFloor" EditType="TextBox">总楼层数</td>
+            <td width="120" align="center" bgcolor="#EFEFEF" Name="dDetail">详细信息</td>
           </tr>
           </thead>
 
@@ -1303,8 +1322,12 @@
             display_sID.value = data.sID;
             let display_sName = document.getElementById("detail_sName");
             display_sName.value = data.sName;
-            let display_sSex = document.getElementById("detail_sSex");
-            display_sSex.value = data.sSex;
+            if(data.sSex == "0") {
+              document.getElementById("detail_sSex").value = "女";
+            }
+            else if(data.sSex == "1") {
+              document.getElementById("detail_sSex").value = "男";
+            }
             let display_sIDcardNo = document.getElementById("detail_sIDcardNo");
             display_sIDcardNo.value = data.sIDcardNo;
             let display_sEnrollYear = document.getElementById("detail_sEnrollYear");
@@ -1317,8 +1340,12 @@
             display_dormID.value = data.dormID;
             let display_roomID = document.getElementById("detail_roomID");
             display_roomID.value = data.roomID;
-            let display_livingState = document.getElementById("detail_livingState");
-            display_livingState.value = data.livingState;
+            if(data.livingState == "0") {
+              document.getElementById("detail_livingState").value = "离校";
+            }
+            else if(data.livingState == "1") {
+              document.getElementById("detail_livingState").value = "已入住";
+            }
             let display_schoolState = document.getElementById("detail_schoolState");
             display_schoolState.value = data.schoolState;
           }
@@ -1355,7 +1382,12 @@
           success: function (houseparent) {
             document.getElementById("detail_hName").value = houseparent.hName;
             document.getElementById("detail_hID").value = houseparent.hID;
-            document.getElementById("detail_hSex").value = houseparent.hSex;
+            if(houseparent.hSex == "0") {
+              document.getElementById("detail_hSex").value = "女";
+            }
+            else if(houseparent.hSex == "1") {
+              document.getElementById("detail_hSex").value = "男";
+            }
             document.getElementById("detail_hIDcardNo").value = houseparent.hIDcardNo;
             document.getElementById("detail_hPhoneNumber").value = houseparent.hPhoneNumber;
             document.getElementById("detail_hEmail").value = houseparent.hEmail;
@@ -1398,12 +1430,12 @@
             $.each(dormitoryAndRoomList, function (i, dormitoryAndRoom) {
               $("#dormitoryAndRoomDetail").append("<tr>")
                   .append('<td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>')
-                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.dormID + '</td>')
-                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.dormNumOfFloor + '</td>')
-                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.roomID + '</td>')
-                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.roomNumOfFloor + '</td>')
-                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.roomCapacity + '</td>')
-                  .append('<td bgcolor="#FFFFFF">' + dormitoryAndRoom.roomState + '</td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + dormitoryAndRoom.dormID + '</td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + dormitoryAndRoom.dormNumOfFloor + '</td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + dormitoryAndRoom.roomID + '</td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + dormitoryAndRoom.roomNumOfFloor + '</td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + dormitoryAndRoom.roomCapacity + '</td>')
+                  .append('<td align="center" bgcolor="#FFFFFF">' + dormitoryAndRoom.roomState + '</td>')
                   .append("</tr>")
             })
           }

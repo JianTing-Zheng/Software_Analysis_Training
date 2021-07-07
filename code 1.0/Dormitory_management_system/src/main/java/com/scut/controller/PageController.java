@@ -16,4 +16,19 @@ public class PageController {
         return "houseparent_dorm";
     }
 
+    @RequestMapping(value = "/page_student_Information")
+    public String page_student_Information() {
+        return "student_Information";
+    }
+
+    @RequestMapping(value = "/page_student_Apply")
+    public String page_student_ChangeDorm() {
+        return "student_Apply";
+    }
+
+    @RequestMapping(value = "/page_student_MoveInOrOut")
+    public String page_student_MoveInOrOut() {
+        return "student_MoveInOrOut";
+    }
+
 }

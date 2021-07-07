@@ -20,7 +20,7 @@ public class LoginController {
         if(identity.equals("student")) {
             int res = service.isMatching(id, password, 0);
             if(res == 1) {
-                mv.setViewName("studentIndex");
+                mv.setViewName("student_Information");
 
                 // 存放当前登录学生id
                 httpSession.setAttribute("currentStudentID", id);
