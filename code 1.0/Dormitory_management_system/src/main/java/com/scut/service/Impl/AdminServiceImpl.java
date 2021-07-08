@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -199,4 +200,49 @@ public class AdminServiceImpl implements AdminService {
     public int delRoomSeparately(Room room) {
         return adminDao.deleteRoomSeparately(room);
     }
+
+    @Override
+    public int handleApplication(Application application) {
+        Date date = new Date();
+        application.setHandleTime(date);
+        String state = application.getApplyState();
+        String applytype = application.getApplyType();
+        //同意申请
+        if (state.equals("1")) {
+            //入住申请或调宿申请
+            if (!applytype.equals("3")) {
+                String sID = application.getsID();
+                String intention = application.getApplyIntention();
+                String dormID = intention.substring(0, intention.indexOf("-"));
+                String roomID = intention.substring(dormID.length() + 1, intention.length());
+                int roomState = adminDao.selectionRoom(dormID, roomID, sID);
+                if (roomState == 4) {
+                    //申请意向满人了，直接返回
+                    application.setApplyState("2");
+                } else {
+                    //没满，改宿舍，再返回
+                    if (applytype.equals("2")) {
+                        //如果是调宿
+                        Room preRoomState = adminDao.selectRoomState(sID);
+                        String preRoomID = preRoomState.getRoomID();
+                        if (preRoomID != null) {
+                            //宿舍状态删去，并且按意愿
+//                            adminDao.decreaseRoomState();
+                            adminDao.deleteStutentRoom(application);
+                        }
+                    }
+                    adminDao.changeStudentRoom(application);
+                }
+            }
+            //不同意
+        }
+        return adminDao.handleApplication(application);
+    }
+
+
+    @Override
+    public List<Application> displayApplications() {
+        return adminDao.selectApplications();
+    }
+
 }

@@ -107,4 +107,35 @@
         delete from room where roomID=#{roomID} and dormID=#{dormID}
     </delete>
 
+
+    <update id="handleApplication">
+        update application set applyState=#{applyState},handleTime=#{handleTime}
+        where applyID=#{applyID};
+    </update>
+
+    <select id="selectionRoom">
+        select roomState from room where roomID=#{roomID} and dormID=#{dormID}
+    </select>
+
+    <select id="selectRoomState">
+        select roomID,dormID from student where sID=#{sID}
+    </select>
+
+    <update id="decreaseRoomState">
+        update room set roomState=roomState-1 where roomID=#{roomID} and dormID=#{dormID}
+    </update>
+
+    <update id="changeStudentRoom">
+        update student set roomID=#{roomID},dormID=#{dormID} where sID=#{sID}
+    </update>
+
+    <update id="deleteStutentRoom">
+        update student set roomID=NULL,dormID=NULL where sID=#{sID}
+    </update>
+
+    <select id="selectApplications" resultType="Application">
+        select applyID, sID, applyType, applyTime, applyReason, applyIntention
+        from application where applyState=0
+    </select>
+
 </mapper>

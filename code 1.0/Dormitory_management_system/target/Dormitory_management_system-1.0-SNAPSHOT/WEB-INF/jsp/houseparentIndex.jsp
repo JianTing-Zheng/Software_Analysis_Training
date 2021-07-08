@@ -120,6 +120,10 @@
     $(function () {
       // 当前页面dom对象加载后, 执行loadHouparentInfo()
       loadHouseparentInfo();
+
+      $("#cancelModify").click(function () {
+        loadHouseparentInfo();
+      })
     })
 
     function loadHouseparentInfo() {
@@ -131,9 +135,15 @@
         type: "get",
         dataType: "json",
         success: function (houseparent) {
+          if(houseparent.hSex == "0") {
+            document.getElementById("sexInput").value = "女";
+          }
+          else if(houseparent.hSex == "1") {
+            document.getElementById("sexInput").value = "男";
+          }
+
           document.getElementById("hIDInput").value = houseparent.hID;
           document.getElementById("nameInput").value = houseparent.hName;
-          document.getElementById("sexInput").value = houseparent.hSex;
           document.getElementById("passwordInput").value = houseparent.hPassword;
           document.getElementById("phoneInput").value = houseparent.hPhoneNumber;
           document.getElementById("IDcardInput").value = houseparent.hIDcardNo;
@@ -203,6 +213,7 @@
         hPhoneNumber: $("input[id=phoneInput]").val()
       },
       success: function (res) {
+        loadHouseparentInfo();
         alert(res);
       },
       error: function () {
@@ -222,6 +233,8 @@
     document.getElementById("phoneInput").disabled = true;
     document.getElementById("passwordInput").Value = passwordInit;
     document.getElementById("phoneInput").Value = phoneInit;
+
+    loadHouseparentInfo();
   }
 </script>
 
@@ -288,7 +301,7 @@
 
         <div id="order" style="display:none;">
           <button id="确定" onclick="OKButton();" style="font-size:20px;height:30px;margin-top:10px;margin-right:30px;background-color:black;border-radius:15px;color:white;">&nbsp;确认修改&nbsp;</button>
-          <button id="取消" onclick="CancelButton();" style="font-size:20px;height:30px;margin-top:10px;margin-right:30px;background-color:black;border-radius:15px;color:white;">&nbsp;取消修改&nbsp;</button>
+          <button id="cancelModify" onclick="CancelButton();" style="font-size:20px;height:30px;margin-top:10px;margin-right:30px;background-color:black;border-radius:15px;color:white;">&nbsp;取消修改&nbsp;</button>
         </div>
       </div>
     </div>

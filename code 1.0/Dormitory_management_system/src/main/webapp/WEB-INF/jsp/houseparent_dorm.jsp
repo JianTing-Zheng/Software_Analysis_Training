@@ -120,6 +120,13 @@
           $("#searchInfo").html("");
           // 添加新的数据
           $.each(students, function (i, student) {
+            if(student.livingState == "0") {
+              student.livingState = "离校";
+            }
+            else if(student.livingState == "1") {
+              student.livingState = "已入住";
+            }
+
             $("#searchInfo").append('<tr class="tr1">')
                 .append('<td align="center">' + student.roomID + '</td>')
                 .append('<td align="center">' + student.department + '</td>')

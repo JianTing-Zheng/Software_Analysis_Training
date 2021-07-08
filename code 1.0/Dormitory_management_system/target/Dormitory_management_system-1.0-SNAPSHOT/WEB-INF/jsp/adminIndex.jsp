@@ -931,6 +931,8 @@
       <li><a href="#" target="_self">学生管理</a></li>
       <li><a href="#" target="_self">宿管管理</a></li>
       <li><a href="#" target="_self">宿舍楼管理</a></li>
+      <!-- 新增一行 处理学生申请 -->
+<%--      <li><a href="#" target="_self">处理学生申请</a></li>--%>
     </ul>
   </div>
 
@@ -1204,6 +1206,46 @@
         <input type="button" id="roomInfoLoader" onclick="DormTarget(currentDormID)" value="刷新">
       </div>
     </div>
+
+<%--    <!-- 这里增加一个<div> -->--%>
+<%--    <div id = "process" class="functDivs">--%>
+<%--      <div id="pform" name="pform" method="post" action="">--%>
+<%--        <table width="698" border="0" cellpadding="0" cellspacing="0" id="processTable">--%>
+<%--          <tr>--%>
+<%--            <td width="32" align="center" bgcolor="#EFEFEF" Name="Num"><input type="checkbox" name="checkbox" value="checkbox" /></td>--%>
+<%--            <td width="186" bgcolor="#EFEFEF" EditType="TextBox">申请编号</td>--%>
+<%--            <td width="186" bgcolor="#EFEFEF" EditType="TextBox">学生学号</td>--%>
+<%--            <td width="186" bgcolor="#EFEFEF" EditType="TextBox">申请类型</td>--%>
+<%--            <td width="186" bgcolor="#EFEFEF" EditType="TextBox">申请时间</td>--%>
+<%--            <td width="186" bgcolor="#EFEFEF" EditType="TextBox">申请原因</td>--%>
+<%--            <td width="186" bgcolor="#EFEFEF" EditType="TextBox">申请意向</td>--%>
+<%--          </tr>--%>
+
+<%--          <tr>--%>
+<%--            <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>--%>
+<%--            <td bgcolor="#FFFFFF">1</td>--%>
+<%--            <td bgcolor="#FFFFFF">20193038</td>--%>
+<%--            <td bgcolor="#FFFFFF">2</td>--%>
+<%--            <td bgcolor="#FFFFFF">78</td>--%>
+<%--            <td bgcolor="#FFFFFF">78</td>--%>
+<%--            <td bgcolor="#FFFFFF">89</td>--%>
+<%--          </tr>--%>
+<%--          <tr>--%>
+<%--            <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="checkbox2" value="checkbox" /></td>--%>
+<%--            <td bgcolor="#FFFFFF">2</td>--%>
+<%--            <td bgcolor="#FFFFFF">20193038</td>--%>
+<%--            <td bgcolor="#FFFFFF">2</td>--%>
+<%--            <td bgcolor="#FFFFFF">78</td>--%>
+<%--            <td bgcolor="#FFFFFF">78</td>--%>
+<%--            <td bgcolor="#FFFFFF">89</td>--%>
+<%--          </tr>--%>
+<%--        </table>--%>
+
+<%--        <br />--%>
+<%--        <input type="button" value="批准" onclick="DeleteRow(document.getElementById('processTable'),1)" />--%>
+<%--        <input type="button" value="退回批准" onclick="DeleteRow(document.getElementById('processTable'),1)" />--%>
+<%--      </div>--%>
+<%--    </div>--%>
   </div>
 
   </body>
@@ -1473,6 +1515,10 @@
 
     let roomTable = document.getElementById("roomTable");
     SetTableCanEdit(roomTable);
+
+    //增加两行
+    let processTable = document.getElementById("processTable");
+    SetTableCanEdit(processTable);
   </script>
 
 </html>

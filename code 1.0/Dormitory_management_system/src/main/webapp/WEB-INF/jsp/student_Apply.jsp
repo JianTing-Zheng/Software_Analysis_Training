@@ -167,6 +167,16 @@
               apply.handleTime = "null";
             }
 
+            if(apply.applyType == "0") {
+              apply.applyType = "入住申请";
+            }
+            else if(apply.applyType == "1") {
+              apply.applyType = "调宿申请";
+            }
+            else if(apply.applyType == "2") {
+              apply.applyType = "退宿申请";
+            }
+
             $("#applyInfo").append("<tr>")
                 .append('<td align="center"><input type="checkbox" name="checkbox" value="checkbox" /></td>')
                 .append("<td align='center'>" + apply.applyID + "</td>")
@@ -308,13 +318,13 @@
     <table align="center" style="background-color: white ;border-radius: 25px;opacity: 0.4;">
       <thead>
       <tr>
-        <th><input type="checkbox" name="checkbox" value="checkbox" /></th>
-        <th Name="applyID" EditType="TextBox">申请编号</th>
-        <th Name="applyType" EditType="TextBox">申请类型</th>
-        <th Name="applyIn" EditType="TextBox">申请意向</th>
-        <th Name="applyTime" EditType="DropDownList">申请时间</th>
-        <th Name="applyState" EditType="DropDownList">申请状态</th>
-        <th Name="handleTime" EditType="DropDownList">处理时间</th>
+        <th>&nbsp;&nbsp;<input type="checkbox" name="checkbox" value="checkbox" />&nbsp;</th>
+        <th align="center" Name="applyID" EditType="TextBox">&nbsp;申请编号&nbsp;</th>
+        <th align="center" Name="applyType" EditType="TextBox">&nbsp;申请类型&nbsp;</th>
+        <th align="center" Name="applyIn" EditType="TextBox">&nbsp;申请意向&nbsp;</th>
+        <th align="center" Name="applyTime" EditType="DropDownList">&nbsp;申请时间&nbsp;</th>
+        <th align="center" Name="applyState" EditType="DropDownList">&nbsp;申请状态&nbsp;</th>
+        <th align="center" Name="handleTime" EditType="DropDownList">&nbsp;处理时间&nbsp;&nbsp;&nbsp;</th>
       </tr>
       </thead>
 

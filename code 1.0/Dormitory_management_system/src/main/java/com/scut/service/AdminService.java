@@ -33,4 +33,8 @@ public interface AdminService {
     int addRoomSeparately(Room room);
     int delRoomSeparately(Room room);
 
+    int handleApplication(Application application);
+
+    List<Application> displayApplications();
+
 }

@@ -35,4 +35,18 @@ public interface AdminDao {
     List<DormitoryAndRoom> selectDormitoryDetail(Dormitory dormitory);
     int deleteRoomSeparately(Room room);
 
+    int handleApplication(Application application);
+
+    List<Application> selectApplications();
+
+    int selectionRoom(String id, String roomID, String dormID);
+
+    void changeStudentRoom(Application application);
+
+    void deleteStutentRoom(Application application);
+
+    Room selectRoomState(String sID);
+
+    void decreaseRoomState(String dormID);
+
 }

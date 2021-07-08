@@ -229,4 +229,23 @@ public class AdminController {
         return res;
     }
 
+    @RequestMapping(value="/displayApplications.do")
+    @ResponseBody
+    public List<Application> displayApplication(){
+        return adminService.displayApplications();
+    }
+
+    @RequestMapping(value="/handleApplication.do")
+    @ResponseBody
+    public List<String> handleApplication(Application application){
+        List<String> res=new ArrayList<>();
+        res.add("批准失败");
+        int isAgree = adminService.handleApplication(application);
+        if(isAgree == 1){
+            res.remove(0);
+            res.add("批准成功");
+        }
+        return res;
+    }
+
 }
